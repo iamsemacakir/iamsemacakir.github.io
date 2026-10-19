@@ -933,7 +933,7 @@
                         line...</h3>
                     <form id="contact-form" class="space-y-8">
                         <!-- Spam trap: hidden from people, bots fill it in and get ignored. -->
-                        <input type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" hidden>
+                        <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" hidden>
                         <div>
                             <p class="font-mono text-[10px] uppercase text-gray-400 mb-1 tracking-widest lang-text"
                                 data-key="contact_name_label">Name</p>
@@ -958,6 +958,7 @@
                             <span class="font-mono text-sm font-bold lang-text" data-key="contact_send">Send</span> <i
                                 class="fas fa-paper-plane"></i>
                         </button>
+                        <p id="contact-status" class="form-status" role="status" aria-live="polite" hidden></p>
                     </form>
                 </div>
 
