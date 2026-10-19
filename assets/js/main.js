@@ -8,7 +8,7 @@ const EXTERNAL_SCRIPTS = {
 // so it is safe to keep in public code. Manage it at https://app.web3forms.com.
 const CONTACT_FORM = {
     endpoint: 'https://api.web3forms.com/submit',
-    accessKey: 'PASTE-WEB3FORMS-ACCESS-KEY-HERE',
+    accessKey: 'a6119887-d559-4e8c-ba42-0dabc2085fda',
     timeoutMs: 15000
 };
 
