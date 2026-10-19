@@ -4,23 +4,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Portfolio of Sema Yasharova, a software engineer focused on full-stack development, clean architecture, and scalable systems.">
-    <title>Sema Yasharova — Software Engineer</title>
+    <meta name="description" content="Portfolio of Sema Cakir, a software engineer focused on full-stack development, clean architecture, and scalable systems.">
+    <title>Sema Cakir — Software Engineer</title>
 
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="assets/js/tailwind.config.js"></script>
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" href="assets/vendor/fontawesome/webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
+    <!-- Icon fonts are self-hosted and trimmed to the icons this page uses (see the note inside each CSS file). -->
+    <link rel="stylesheet" href="assets/vendor/fontawesome/css/fontawesome.min.css">
+    <link rel="stylesheet" href="assets/vendor/devicon/devicon.min.css">
 
     <script src="assets/js/main.js" defer></script>
 
     <link rel="stylesheet" href="assets/css/styles.css">
+    <!-- Tailwind is pre-built (no in-browser compiler). After adding NEW Tailwind classes, rebuild it with:
+         npx tailwindcss@3.4.17 -i assets/css/tailwind.input.css -o assets/css/tailwind.css --minify -->
+    <link rel="stylesheet" href="assets/css/tailwind.css">
 </head>
 
 <body class="selection:bg-primary selection:text-white relative">
@@ -35,7 +37,7 @@
                 <a href="#" class="flex items-center gap-3 group">
                     <span
                         class="font-handwriting font-bold text-3xl tracking-tight text-ink dark:text-white transform group-hover:-rotate-3 transition">Sema
-                        Yasharova</span>
+                        Cakir</span>
                 </a>
 
                 <div
@@ -108,17 +110,17 @@
 
         <div class="absolute z-[110] text-center pointer-events-none w-full flex flex-col items-center" data-aos="zoom-in" data-aos-duration="1500">
             <!-- Screen-reader only H1 for SEO -->
-            <h1 class="sr-only">Sema Yasharova</h1>
+            <h1 class="sr-only">Sema Cakir</h1>
 
             <!-- Animated SVG Signature -->
             <svg class="signature-svg block mx-auto w-[92%] max-w-[860px] h-[120px] sm:h-[180px] md:h-[220px] transform -rotate-2 drop-shadow-sm text-ink dark:text-white" viewBox="0 0 860 220" aria-hidden="true">
                 <text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle"
                       font-size="120" class="font-handwriting signature-stroke stroke-current">
-                    Sema Yasharova
+                    Sema Cakir
                 </text>
                 <text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle"
                       font-size="120" class="font-handwriting signature-fill">
-                    Sema Yasharova
+                    Sema Cakir
                 </text>
             </svg>
 
@@ -147,7 +149,7 @@
             </div>
         </div>
 
-        <div class="hidden md:block relative w-full max-w-[1400px] h-[85vh] mx-auto pointer-events-none">
+        <div class="hero-collage hidden md:block relative w-full max-w-[1400px] h-[85vh] mx-auto pointer-events-none">
 
             <div class="draggable hero-card-profile absolute pointer-events-auto">
                 <div
@@ -159,8 +161,8 @@
                         <div class="w-8 h-1.5 bg-gray-500 rounded-full"></div>
                     </div>
                     <div class="w-full aspect-square rounded overflow-hidden mb-4 border border-gray-600 bg-gray-300">
-                        <img data-src="images/semaWelcome2.webp" data-fallback="https://placehold.co/400x400?text=Sema"
-                            alt="Sema Yasharova portrait"
+                        <img data-src="images/semaWelcome2-sm.webp" data-fallback="https://placehold.co/400x400?text=Sema"
+                            alt="Sema Cakir portrait"
                             class="w-full h-full object-cover grayscale hover:grayscale-0 transition duration-500"
                             decoding="async" loading="lazy">
                     </div>
@@ -202,8 +204,8 @@
             <div class="draggable hero-card-graduation absolute pointer-events-auto">
                 <div class="polaroid-style w-36 md:w-48">
                     <div class="tape corner"></div>
-                    <img data-src="images/graduation.webp" data-fallback="https://placehold.co/400x500?text=Grad"
-                        alt="Sema Yasharova graduation photo"
+                    <img data-src="images/graduation-sm.webp" data-fallback="https://placehold.co/400x500?text=Grad"
+                        alt="Sema Cakir graduation photo"
                         class="w-full aspect-[3/4] object-cover mb-2 grayscale hover:grayscale-0 contrast-125 border border-gray-200 dark:border-gray-700 transition duration-500"
                         loading="lazy" decoding="async">
                     <p class="font-handwriting text-ink text-center text-lg md:text-xl mt-1 lang-text"
@@ -295,9 +297,9 @@
                         <div
                             class="float-right w-28 md:w-36 ml-6 mb-4 mt-2 polaroid-style transform rotate-3 shadow-md border border-gray-200 dark:border-gray-700">
                             <div class="tape corner tape-corner-photo"></div>
-                            <img src="images/me/SemaYasharova.jpeg"
+                            <img src="images/me/SemaYasharova-sm.webp"
                                 data-fallback="https://placehold.co/300x300?text=Sema"
-                                alt="Sema Yasharova"
+                                alt="Sema Cakir"
                                 class="w-full aspect-[4/5] object-cover" loading="lazy" decoding="async">
                         </div>
 
@@ -421,7 +423,7 @@
                         <div
                             class="w-20 h-24 polaroid-mini flex-shrink-0 transform -rotate-3 border border-gray-200 p-1.5 pb-5">
                             <div class="tape corner tape-corner-mini"></div>
-                            <img src="images/schools/rusenksi_uni2.webp"
+                            <img src="images/schools/rusenksi_uni2-sm.webp"
                                 data-fallback="https://placehold.co/100x100?text=Uni"
                                 alt="University of Ruse"
                                 class="w-full h-full object-cover" loading="lazy" decoding="async">
@@ -445,7 +447,7 @@
                         <div
                             class="w-20 h-24 polaroid-mini flex-shrink-0 transform rotate-2 border border-gray-200 p-1.5 pb-5">
                             <div class="tape corner tape-corner-mini"></div>
-                            <img src="images/schools/rusenksi_uni.webp"
+                            <img src="images/schools/rusenksi_uni-sm.webp"
                                 data-fallback="https://placehold.co/100x100?text=Uni"
                                 alt="University of Ruse campus"
                                 class="w-full h-full object-cover" loading="lazy" decoding="async">
@@ -469,7 +471,7 @@
                         <div
                             class="w-20 h-24 polaroid-mini flex-shrink-0 transform -rotate-2 border border-gray-200 p-1.5 pb-5">
                             <div class="tape corner tape-corner-mini"></div>
-                            <img src="images/schools/su_hristo_botev.webp"
+                            <img src="images/schools/su_hristo_botev-sm.webp"
                                 data-fallback="https://placehold.co/100x100?text=School"
                                 alt="Hristo Botev Secondary School"
                                 class="w-full h-full object-cover" loading="lazy" decoding="async">
@@ -733,7 +735,7 @@
                     <div class="cert-card" data-flip-card tabindex="0" role="button">
                         <div class="cert-front">
                             <div class="tape corner"></div>
-                            <img src="images/certificates/programming-basics-july-2021-certificate-1.webp"
+                            <img src="images/certificates/programming-basics-july-2021-certificate-1-sm.webp"
                                 data-fallback="https://placehold.co/400x560?text=Cert+1"
                                 alt="Programming Basics certificate front" loading="lazy" decoding="async">
                             <p class="font-handwriting text-center text-ink dark:text-white cert-title">Prog Basics</p>
@@ -741,7 +743,7 @@
                             <i class="fas fa-undo flip-hint"></i>
                         </div>
                         <div class="cert-back">
-                            <img src="images/certificates/programming-basics-july-2021-certificate-2.webp"
+                            <img src="images/certificates/programming-basics-july-2021-certificate-2-sm.webp"
                                 data-fallback="https://placehold.co/400x560?text=Back"
                                 alt="Programming Basics certificate back" loading="lazy" decoding="async">
                             <p class="font-handwriting text-center text-ink dark:text-white cert-title">Prog Basics</p>
@@ -756,7 +758,7 @@
                     <div class="cert-card" data-flip-card tabindex="0" role="button">
                         <div class="cert-front">
                             <div class="tape"></div>
-                            <img src="images/certificates/programming-basics-with-c-january-2022-certificate-1.webp"
+                            <img src="images/certificates/programming-basics-with-c-january-2022-certificate-1-sm.webp"
                                 data-fallback="https://placehold.co/400x560?text=Cert+2"
                                 alt="Programming Basics with C++ certificate front" loading="lazy" decoding="async">
                             <p class="font-handwriting text-center text-ink dark:text-white cert-title">Prog Basics C++
@@ -765,7 +767,7 @@
                             <i class="fas fa-undo flip-hint"></i>
                         </div>
                         <div class="cert-back">
-                            <img src="images/certificates/programming-basics-with-c-january-2022-certificate-2.webp"
+                            <img src="images/certificates/programming-basics-with-c-january-2022-certificate-2-sm.webp"
                                 data-fallback="https://placehold.co/400x560?text=Back"
                                 alt="Programming Basics with C++ certificate back" loading="lazy" decoding="async">
                             <p class="font-handwriting text-center text-ink dark:text-white cert-title">Prog Basics C++
@@ -781,7 +783,7 @@
                     <div class="cert-card" data-flip-card tabindex="0" role="button">
                         <div class="cert-front">
                             <div class="tape corner"></div>
-                            <img src="images/certificates/c-fundamentals-march-2022-certificate-1.webp"
+                            <img src="images/certificates/c-fundamentals-march-2022-certificate-1-sm.webp"
                                 data-fallback="https://placehold.co/400x560?text=Cert+3"
                                 alt="C++ Fundamentals certificate front" loading="lazy" decoding="async">
                             <p class="font-handwriting text-center text-ink dark:text-white cert-title">C++ Fund.</p>
@@ -789,7 +791,7 @@
                             <i class="fas fa-undo flip-hint"></i>
                         </div>
                         <div class="cert-back">
-                            <img src="images/certificates/c-fundamentals-march-2022-certificate-2.webp"
+                            <img src="images/certificates/c-fundamentals-march-2022-certificate-2-sm.webp"
                                 data-fallback="https://placehold.co/400x560?text=Back"
                                 alt="C++ Fundamentals certificate back" loading="lazy" decoding="async">
                             <p class="font-handwriting text-center text-ink dark:text-white cert-title">C++ Fund.</p>
@@ -804,7 +806,7 @@
                     <div class="cert-card" data-flip-card tabindex="0" role="button">
                         <div class="cert-front">
                             <div class="tape"></div>
-                            <img src="images/certificates/c-advanced-may-2022-certificate-1.webp"
+                            <img src="images/certificates/c-advanced-may-2022-certificate-1-sm.webp"
                                 data-fallback="https://placehold.co/400x560?text=Cert+4"
                                 alt="C++ Advanced certificate front" loading="lazy" decoding="async">
                             <p class="font-handwriting text-center text-ink dark:text-white cert-title">C++ Advanced</p>
@@ -812,7 +814,7 @@
                             <i class="fas fa-undo flip-hint"></i>
                         </div>
                         <div class="cert-back">
-                            <img src="images/certificates/c-advanced-may-2022-certificate-2.webp"
+                            <img src="images/certificates/c-advanced-may-2022-certificate-2-sm.webp"
                                 data-fallback="https://placehold.co/400x560?text=Back"
                                 alt="C++ Advanced certificate back" loading="lazy" decoding="async">
                             <p class="font-handwriting text-center text-ink dark:text-white cert-title">C++ Advanced</p>
@@ -827,7 +829,7 @@
                     <div class="cert-card" data-flip-card tabindex="0" role="button">
                         <div class="cert-front">
                             <div class="tape"></div>
-                            <img src="images/certificates/programming-basics-march-2023-certificate-1.webp"
+                            <img src="images/certificates/programming-basics-march-2023-certificate-1-sm.webp"
                                 data-fallback="https://placehold.co/400x560?text=Cert+5"
                                 alt="Programming Basics 2023 certificate front" loading="lazy" decoding="async">
                             <p class="font-handwriting text-center text-ink dark:text-white cert-title">Prog Basics 23
@@ -836,7 +838,7 @@
                             <i class="fas fa-undo flip-hint"></i>
                         </div>
                         <div class="cert-back">
-                            <img src="images/certificates/programming-basics-march-2023-certificate-2.webp"
+                            <img src="images/certificates/programming-basics-march-2023-certificate-2-sm.webp"
                                 data-fallback="https://placehold.co/400x560?text=Back"
                                 alt="Programming Basics 2023 certificate back" loading="lazy" decoding="async">
                             <p class="font-handwriting text-center text-ink dark:text-white cert-title">Prog Basics 23
@@ -852,7 +854,7 @@
                     <div class="cert-card" data-flip-card tabindex="0" role="button">
                         <div class="cert-front">
                             <div class="tape corner"></div>
-                            <img src="images/certificates/programming-fundamentals-with-csharp-may-2023-certificate-1.webp"
+                            <img src="images/certificates/programming-fundamentals-with-csharp-may-2023-certificate-1-sm.webp"
                                 data-fallback="https://placehold.co/400x560?text=Cert+6"
                                 alt="C# Fundamentals certificate front" loading="lazy" decoding="async">
                             <p class="font-handwriting text-center text-ink dark:text-white cert-title">C# Fund.</p>
@@ -860,7 +862,7 @@
                             <i class="fas fa-undo flip-hint"></i>
                         </div>
                         <div class="cert-back">
-                            <img src="images/certificates/programming-fundamentals-with-csharp-may-2023-certificate-2.webp"
+                            <img src="images/certificates/programming-fundamentals-with-csharp-may-2023-certificate-2-sm.webp"
                                 data-fallback="https://placehold.co/400x560?text=Back"
                                 alt="C# Fundamentals certificate back" loading="lazy" decoding="async">
                             <p class="font-handwriting text-center text-ink dark:text-white cert-title">C# Fund.</p>
@@ -875,7 +877,7 @@
                     <div class="cert-card" data-flip-card tabindex="0" role="button">
                         <div class="cert-front">
                             <div class="tape"></div>
-                            <img src="images/certificates/c-advanced-may-2023-certificate-1.webp"
+                            <img src="images/certificates/c-advanced-may-2023-certificate-1-sm.webp"
                                 data-fallback="https://placehold.co/400x560?text=Cert+7"
                                 alt="C++ Advanced 2023 certificate front" loading="lazy" decoding="async">
                             <p class="font-handwriting text-center text-ink dark:text-white cert-title">C++ Adv 23</p>
@@ -883,7 +885,7 @@
                             <i class="fas fa-undo flip-hint"></i>
                         </div>
                         <div class="cert-back">
-                            <img src="images/certificates/c-advanced-may-2023-certificate-2.webp"
+                            <img src="images/certificates/c-advanced-may-2023-certificate-2-sm.webp"
                                 data-fallback="https://placehold.co/400x560?text=Back"
                                 alt="C++ Advanced 2023 certificate back" loading="lazy" decoding="async">
                             <p class="font-handwriting text-center text-ink dark:text-white cert-title">C++ Adv 23</p>
@@ -898,7 +900,7 @@
                     <div class="cert-card" data-flip-card tabindex="0" role="button">
                         <div class="cert-front">
                             <div class="tape corner"></div>
-                            <img src="images/certificates/ms-sql-september-2023-certificate-1.webp"
+                            <img src="images/certificates/ms-sql-september-2023-certificate-1-sm.webp"
                                 data-fallback="https://placehold.co/400x560?text=Cert+8"
                                 alt="MS SQL certificate front" loading="lazy" decoding="async">
                             <p class="font-handwriting text-center text-ink dark:text-white cert-title">MS SQL</p>
@@ -906,7 +908,7 @@
                             <i class="fas fa-undo flip-hint"></i>
                         </div>
                         <div class="cert-back">
-                            <img src="images/certificates/ms-sql-september-2023-certificate-2.webp"
+                            <img src="images/certificates/ms-sql-september-2023-certificate-2-sm.webp"
                                 data-fallback="https://placehold.co/400x560?text=Back"
                                 alt="MS SQL certificate back" loading="lazy" decoding="async">
                             <p class="font-handwriting text-center text-ink dark:text-white cert-title">MS SQL</p>
@@ -930,6 +932,8 @@
                     <h3 class="font-handwriting text-5xl mb-10 text-white lang-text" data-key="contact_title">Drop a
                         line...</h3>
                     <form id="contact-form" class="space-y-8">
+                        <!-- Spam trap: hidden from people, bots fill it in and get ignored. -->
+                        <input type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" hidden>
                         <div>
                             <p class="font-mono text-[10px] uppercase text-gray-400 mb-1 tracking-widest lang-text"
                                 data-key="contact_name_label">Name</p>
@@ -962,7 +966,7 @@
                 <div
                     class="w-full md:w-1/2 p-8 md:p-14 flex flex-col justify-center space-y-10 relative z-10 border-t md:border-t-0 border-gray-700">
                     <div
-                        class="absolute top-10 right-10 w-16 h-20 border border-gray-600 p-1 rounded-sm opacity-50 transform -rotate-3 pointer-events-none">
+                        class="contact-stamp absolute top-10 right-10 w-16 h-20 border border-gray-600 p-1 rounded-sm opacity-50 transform -rotate-3 pointer-events-none">
                         <div
                             class="w-full h-full border border-dashed border-gray-500 flex items-center justify-center flex-col">
                             <i class="fas fa-globe text-gray-400 text-2xl"></i>
@@ -973,8 +977,8 @@
                     <div>
                         <p class="font-mono text-[10px] text-gray-400 uppercase tracking-widest mb-2 lang-text"
                             data-key="contact_info_email">Email</p>
-                        <a href="mailto:semayasharova@gmail.com"
-                            class="font-handwriting text-3xl text-white hover:text-primary transition break-all leading-none">semayasharova@gmail.com</a>
+                        <a href="mailto:semacakir.business@gmail.com"
+                            class="contact-email font-handwriting text-3xl text-white hover:text-primary transition leading-none">semacakir.business@<wbr>gmail.com</a>
                     </div>
                     <div>
                         <p class="font-mono text-[10px] text-gray-400 uppercase tracking-widest mb-2 lang-text"
@@ -983,7 +987,7 @@
                         <p class="font-handwriting text-2xl text-white leading-none">∘ Hamburg, Germany</p>
                     </div>
                     <div class="flex gap-6 pt-6">
-                        <a href="https://github.com/semayashar" target="_blank" rel="noopener"
+                        <a href="https://github.com/iamsemacakir" target="_blank" rel="noopener"
                             class="text-3xl text-gray-400 hover:text-white transition transform hover:-translate-y-1"><i
                                 class="fab fa-github"></i></a>
                         <a href="https://www.linkedin.com/in/SemaYasharova" target="_blank" rel="noopener"
@@ -997,7 +1001,7 @@
     </section>
 
     <footer class="py-10 text-center text-xs font-mono text-gray-400 border-t border-gray-200 dark:border-gray-800">
-        <p>&copy; 2026 Sema Yasharova. Thoughtful code for real people.</p>
+        <p>&copy; 2026 Sema Cakir. Thoughtful code for real people.</p>
     </footer>
 
     <div id="project-modal"
