@@ -1,4 +1,8 @@
-tailwind.config = {
+// Tailwind CSS v3 config. Used only when rebuilding assets/css/tailwind.css:
+//   npx tailwindcss@3.4.17 -i assets/css/tailwind.input.css -o assets/css/tailwind.css --minify
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+    content: ['./index.html', './assets/js/**/*.js'],
     darkMode: 'class',
     theme: {
         extend: {
