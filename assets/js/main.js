@@ -1,17 +1,15 @@
 // --- 0. LAZY THIRD-PARTY SCRIPTS ---
 const EXTERNAL_SCRIPTS = {
-    emailjs: 'https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js',
     sweetalert: 'https://cdn.jsdelivr.net/npm/sweetalert2@11'
 };
 
-const EMAILJS_CONFIG = {
-    publicKey: 'zfBIv-14_8HS3QYQ4',
-    serviceId: 'service_yz3eqg8',
-    templateId: 'template_1c3d1xd'
-};
+// "Drop a line" form → Gmail, via FormSubmit (https://formsubmit.co, free, no account).
+// The very first message triggers an "Activate Form" email to this inbox; click it once and
+// every later message arrives normally. After activating, FormSubmit also emails you a random
+// alias you can put here instead of the address (keeps it out of the page source).
+const CONTACT_FORM_ENDPOINT = 'https://formsubmit.co/ajax/semacakir.business@gmail.com';
 
 const loadedScriptPromises = new Map();
-let emailJsReady = null;
 
 // --- 1. DATA (Translations & Projects) ---
 const translations = {
@@ -118,7 +116,14 @@ const translations = {
     modal_workflow_title: { en: "Features / Workflow", bg: "Функции / Работен процес", tr: "Özellikler / İş Akışı" },
     modal_btn: { en: "View Repository", bg: "Вижте хранилището", tr: "Depoyu Görüntüle" },
     alert_success_title: { en: "Message Sent!", bg: "Изпратено!", tr: "Gönderildi!" },
-    alert_success_msg: { en: "Thank you for contacting me. I will get back to you soon.", bg: "Благодаря, че се свързахте с мен. Ще ви отговоря скоро.", tr: "İletişime geçtiğiniz için teşekkürler. Size yakında dönüş yapacağım." }
+    alert_success_msg: { en: "Thank you for contacting me. I will get back to you soon.", bg: "Благодаря, че се свързахте с мен. Ще ви отговоря скоро.", tr: "İletişime geçtiğiniz için teşekkürler. Size yakında dönüş yapacağım." },
+    alert_error_title: { en: "Oops!", bg: "Опа!", tr: "Hay aksi!" },
+    alert_error_msg: {
+        en: "Your message couldn't be sent. Please try again in a moment, or email me directly at semacakir.business@gmail.com.",
+        bg: "Съобщението не беше изпратено. Опитайте отново след малко или ми пишете директно на semacakir.business@gmail.com.",
+        tr: "Mesajınız gönderilemedi. Lütfen biraz sonra tekrar deneyin ya da doğrudan semacakir.business@gmail.com adresine yazın."
+    },
+    contact_sending: { en: "Sending...", bg: "Изпращане...", tr: "Gönderiliyor..." }
 };
 
 const projectsData = {
@@ -135,8 +140,8 @@ const projectsData = {
             bg: ["Структурирани образователни курсове с мултимедийно съдържание и незабавна обратна връзка.", "Модул за финален изпит с автоматизирано оценяване и генериране на PDF сертификати.", "Блог секция на общността за образователни статии и ангажиране на потребителите.", "Изчерпателен административен панел за пълен контрол върху платформата."],
             tr: ["Multimedya içeriği ve anında geri bildirim sunan Yapılandırılmış Eğitim Kursları.", "Otomatik notlandırma ve PDF sertifika oluşturma özellikli Final Sınavı Modülü.", "Eğitim makaleleri ve kullanıcı etkileşimi için Topluluk Blog Bölümü.", "Tam platform kontrolü için Kapsamlı Yönetim Paneli."]
         },
-        img: "images/langforu/index.png",
-        gallery: ["images/langforu/courses.png", "images/langforu/blog.png", "images/langforu/blog-details.png"],
+        img: "images/langforu/index.webp",
+        gallery: ["images/langforu/courses.webp", "images/langforu/blog.webp", "images/langforu/blog-details.webp"],
         link: "https://github.com/semayashar/LangForU_2025"
     },
     travelis: {
@@ -152,8 +157,8 @@ const projectsData = {
             bg: ["Ролеви достъп за Клиенти, Хотелски и Системни администратори.", "Централизирани резервации за хотели, таксита и коли под наем.", "AI-базирани препоръки за атракции и хотели.", "Висока сигурност: JWT Auth, Параметризирани заявки и 2FA."],
             tr: ["Müşteriler, Otel ve Sistem Yöneticileri için rol tabanlı erişim.", "Oteller, taksiler ve kiralık araçlar için merkezi rezervasyon.", "Yapay zeka destekli turistik yer ve otel önerileri.", "Güçlü güvenlik: JWT Auth, Parametreli Sorgular ve 2FA."]
         },
-        img: "images/travelis/index.png",
-        gallery: ["images/travelis/account-account.png", "images/travelis/hotels-hotel-grid.png", "images/travelis/support-ticket-list.png"],
+        img: "images/travelis/index.webp",
+        gallery: ["images/travelis/account-account.webp", "images/travelis/hotels-hotel-grid.webp", "images/travelis/support-ticket-list.webp"],
         link: "https://github.com/semayashar"
     },
     sportarete: {
@@ -169,8 +174,8 @@ const projectsData = {
             bg: ["Приложих MVC архитектура за чисто разделяне на отговорностите.", "Внедрих unit тестове с помощта на NUnit, за да гарантирам стабилността на приложението."],
             tr: ["Sorumlulukların net bir şekilde ayrılması için MVC mimarisini uyguladım.", "Uygulama kararlılığını sağlamak için NUnit kullanarak birim testleri entegre ettim."]
         },
-        img: "images/sportarete/index.png",
-        gallery: ["images/sportarete/allProducts.png", "images/sportarete/categories.png", "images/sportarete/brands.png"],
+        img: "images/sportarete/index.webp",
+        gallery: ["images/sportarete/allProducts.webp", "images/sportarete/categories.webp", "images/sportarete/brands.webp"],
         link: "https://github.com/semayashar"
     },
     conexion: {
@@ -186,8 +191,8 @@ const projectsData = {
             bg: ["Създадох мащабируеми модули за публикации, харесвания, коментари и потребителски профили.", "Изградих отзивчив и удобен за потребителя интерфейс с помощта на Bootstrap и SCSS."],
             tr: ["Gönderiler, beğeniler, yorumlar ve kullanıcı profilleri için ölçeklenebilir modüller geliştirdim.", "Bootstrap ve SCSS kullanarak duyarlı, kullanıcı dostu bir arayüz oluşturdum."]
         },
-        img: "images/conexion/index.png",
-        gallery: ["images/conexion/connect.png", "images/conexion/about.png", "images/conexion/privacy.png"],
+        img: "images/conexion/index.webp",
+        gallery: ["images/conexion/connect.webp", "images/conexion/about.webp", "images/conexion/privacy.webp"],
         link: "https://github.com/semayashar"
     }
 };
@@ -628,6 +633,8 @@ function makeDraggable(el) {
 
     function elementDrag(event) {
         event.preventDefault();
+        // Ignore the few pixels of finger jitter in a tap, so a tap still flips the card.
+        if (!isDragging && Math.hypot(event.clientX - dragStartX, event.clientY - dragStartY) < 5) return;
         isDragging = true;
         setNewPos(event.clientX, event.clientY);
     }
@@ -651,7 +658,8 @@ function makeDraggable(el) {
         el.removeEventListener('pointercancel', closeDragElement);
         el.classList.remove('drag-active');
 
-        if (!isDragging && pendingFlipCard) {
+        // pointercancel = the browser took over (e.g. the visitor scrolled the page): not a tap.
+        if (event?.type !== 'pointercancel' && !isDragging && pendingFlipCard) {
             flipCard(pendingFlipCard);
         }
 
@@ -673,6 +681,23 @@ function flipCard(cardElement) {
 // --- 6. MODALS & FS VIEWER LOGIC ---
 let fsImages = [];
 let fsCurrentIndex = 0;
+
+// Each project screenshot exists in three sizes: "-sm" (gallery thumbnail),
+// "-md" (popup preview) and the plain file (fullscreen viewer).
+function imageVariant(src, size) {
+    return src.replace(/\.webp$/, `-${size}.webp`);
+}
+
+// Warm the cache for the neighbouring fullscreen images so the arrows feel instant.
+function preloadFsNeighbours() {
+    if (fsImages.length < 2) return;
+    [1, -1].forEach((step) => {
+        const next = fsImages[(fsCurrentIndex + step + fsImages.length) % fsImages.length];
+        const img = new Image();
+        img.decoding = 'async';
+        img.src = next;
+    });
+}
 
 function openModal(id) {
     if (!projectsData[id]) return;
@@ -698,7 +723,7 @@ function renderProjectModal(id) {
     document.getElementById('modal-link').href = project.link;
 
     const modalImage = document.getElementById('modal-img');
-    modalImage.src = project.img;
+    modalImage.src = imageVariant(project.img, 'md');
     modalImage.alt = `${project.title} main preview`;
     applyImageFallback(modalImage);
 
@@ -730,7 +755,7 @@ function createGalleryButton(imageSrc, index, projectTitle) {
     button.addEventListener('click', () => openFullscreen(index));
 
     const image = document.createElement('img');
-    image.src = imageSrc;
+    image.src = imageVariant(imageSrc, 'sm');
     image.dataset.fallback = 'https://placehold.co/300x200?text=Gallery';
     image.alt = `${projectTitle} gallery preview ${index}`;
     image.loading = 'lazy';
@@ -767,6 +792,7 @@ function openFullscreen(index = 0) {
     const modal = document.getElementById('fs-viewer');
     modal.classList.remove('hidden');
     modal.classList.add('visible');
+    preloadFsNeighbours();
 }
 
 function closeFullscreen() {
@@ -786,6 +812,7 @@ function changeFsImage(direction) {
     setTimeout(() => {
         fsImg.src = fsImages[fsCurrentIndex];
         fsImg.style.opacity = 1;
+        preloadFsNeighbours();
     }, 150);
 }
 
@@ -826,18 +853,7 @@ function loadScriptOnce(src) {
     return promise;
 }
 
-function ensureEmailJs() {
-    if (emailJsReady) return emailJsReady;
-
-    emailJsReady = loadScriptOnce(EXTERNAL_SCRIPTS.emailjs).then(() => {
-        if (!window.emailjs) throw new Error('EmailJS failed to load.');
-        emailjs.init(EMAILJS_CONFIG.publicKey);
-    });
-
-    return emailJsReady;
-}
-
-// --- 7. CONTACT FORM (Using EmailJS) ---
+// --- 7. CONTACT FORM (FormSubmit → Gmail) ---
 async function sendEmail(event) {
     event.preventDefault();
 
@@ -845,51 +861,59 @@ async function sendEmail(event) {
     if (!form.reportValidity()) return;
 
     const lang = localStorage.getItem('pref-lang') || 'en';
+    const t = (key) => translations[key][lang] || translations[key].en;
     const submitBtn = form.querySelector('button[type="submit"]');
     const originalBtnContent = submitBtn.innerHTML;
 
-    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+    submitBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${t('contact_sending')}`;
     submitBtn.disabled = true;
 
     const formData = new FormData(form);
-    const fromName = String(formData.get('from_name') || '').trim();
-    const fromEmail = String(formData.get('from_email') || '').trim();
+    const name = String(formData.get('from_name') || '').trim();
+    const email = String(formData.get('from_email') || '').trim();
     const message = String(formData.get('message') || '').trim();
 
-    const params = {
-        from_name: fromName,
-        name: fromName,
-        from_email: fromEmail,
-        user_email: fromEmail,
-        email: fromEmail,
-        reply_to: fromEmail,
+    const payload = {
+        name,
+        email,                      // FormSubmit uses this as the reply-to address
         message,
-        to_name: 'Sema Yasharova'
+        _subject: `Portfolio message from ${name}`,
+        _template: 'table',
+        _captcha: 'false',
+        _honey: String(formData.get('_honey') || '') // hidden spam trap: humans leave it empty
     };
 
-    try {
-        await ensureEmailJs();
-        await emailjs.send(
-            EMAILJS_CONFIG.serviceId,
-            EMAILJS_CONFIG.templateId,
-            params,
-            EMAILJS_CONFIG.publicKey
-        );
-        form.reset();
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 20000);
 
-        showAlert({
-            title: translations.alert_success_title[lang] || translations.alert_success_title.en,
-            text: translations.alert_success_msg[lang] || translations.alert_success_msg.en,
-            icon: 'success'
+    try {
+        const response = await fetch(CONTACT_FORM_ENDPOINT, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+            body: JSON.stringify(payload),
+            signal: controller.signal
         });
+        const result = await response.json().catch(() => ({}));
+
+        if (!response.ok || String(result.success) !== 'true') {
+            // Before the one-time activation, FormSubmit answers with "This form needs Activation...".
+            const needsActivation = /activat/i.test(String(result.message || ''));
+            throw Object.assign(new Error(result.message || `HTTP ${response.status}`), { needsActivation });
+        }
+
+        form.reset();
+        showAlert({ title: t('alert_success_title'), text: t('alert_success_msg'), icon: 'success' });
     } catch (error) {
-        console.error(error);
+        console.error('Contact form:', error);
         showAlert({
-            title: "Oops!",
-            text: "Something went wrong. Please try again later.",
-            icon: "error"
+            title: t('alert_error_title'),
+            text: error.needsActivation
+                ? 'Almost there: open the "Activate Form" email FormSubmit just sent to semacakir.business@gmail.com and click the button. After that, messages arrive in your inbox.'
+                : t('alert_error_msg'),
+            icon: error.needsActivation ? 'info' : 'error'
         });
     } finally {
+        clearTimeout(timeout);
         submitBtn.innerHTML = originalBtnContent;
         submitBtn.disabled = false;
     }

@@ -858,6 +858,96 @@ body.is-locked {
   }
 }
 
+/* --- Responsive refinements (sizing/placement only; desktop 1280px+ is unchanged) --- */
+
+/* Tablets: the desktop nav is exactly as wide as a 768px screen, so tighten its gaps. */
+@media (min-width: 768px) and (max-width: 1023px) {
+  #navbar .space-x-8 > :not([hidden]) ~ :not([hidden]) {
+    margin-left: 1.25rem;
+  }
+}
+
+/* Portrait tablets: the draggable desk collage piles on top of the signature,
+   so use the same clean hero as phones. */
+@media (min-width: 768px) and (max-width: 1023px) {
+  #welcomePage .hero-collage {
+    display: none;
+  }
+
+  #welcomePage .hero-mobile-stickers {
+    display: flex;
+  }
+}
+
+/* Small laptops / landscape tablets: same collage, slightly smaller cards so they clear the name. */
+@media (min-width: 1024px) and (max-width: 1279px) {
+  #welcomePage .hero-collage > .draggable > * {
+    zoom: 0.8;
+  }
+
+  #welcomePage .hero-card-profile {
+    left: 1%;
+    top: 2%;
+  }
+
+  #welcomePage .hero-card-code {
+    right: 4%;
+    top: 47%;
+  }
+}
+
+/* Phones: two certificate cards per row instead of one long column. */
+@media (max-width: 639px) {
+  #cert-desk {
+    gap: 14px 10px;
+    padding: 2.5rem 10px;
+    min-height: 0;
+  }
+
+  #cert-desk .cert-wrapper {
+    width: calc(50% - 17px);
+    max-width: 170px;
+    margin: 6px 6px 10px;
+  }
+
+  #cert-desk .cert-title {
+    font-size: 1rem;
+  }
+}
+
+/* Touch screens: let a vertical swipe over a certificate scroll the page (tap still flips, sideways drag still moves). */
+@media (pointer: coarse) {
+  #cert-desk .draggable {
+    touch-action: pan-y;
+  }
+}
+
+/* Contact card: keep the postage stamp clear of the email address on narrow screens,
+   and wrap the address after the "@" instead of mid-word. */
+#contact .contact-email {
+  word-break: normal;
+  overflow-wrap: break-word;
+}
+
+@media (max-width: 767px) {
+  #contact .contact-stamp {
+    top: auto;
+    bottom: 2.5rem;
+    right: 2rem;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  #contact .contact-stamp {
+    top: 1.5rem;
+    right: 1.5rem;
+  }
+
+  #contact .contact-email {
+    font-size: 1.6rem;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   [data-aos],
   [data-aos="zoom-in"] {
