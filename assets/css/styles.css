@@ -749,6 +749,34 @@ body.is-locked {
   border-color: #2563eb;
 }
 
+/* Contact form status line (under the Send button) */
+#contact .form-status {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  font-family: 'Courier Prime', monospace;
+  font-size: 0.8rem;
+  line-height: 1.45;
+  color: #9ca3af;
+}
+
+#contact .form-status[hidden] {
+  display: none;
+}
+
+#contact .form-status i {
+  margin-top: 0.2em;
+}
+
+#contact .form-status.is-success {
+  color: #4ade80;
+}
+
+#contact .form-status.is-error {
+  color: #f87171;
+}
+
 /* --- Modals --- */
 .modal {
   transition: opacity 0.3s ease, visibility 0.3s ease;
