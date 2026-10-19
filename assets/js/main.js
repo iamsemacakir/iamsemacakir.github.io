@@ -3,11 +3,14 @@ const EXTERNAL_SCRIPTS = {
     sweetalert: 'https://cdn.jsdelivr.net/npm/sweetalert2@11'
 };
 
-// "Drop a line" form → Gmail, via FormSubmit (https://formsubmit.co, free, no account).
-// The very first message triggers an "Activate Form" email to this inbox; click it once and
-// every later message arrives normally. After activating, FormSubmit also emails you a random
-// alias you can put here instead of the address (keeps it out of the page source).
-const CONTACT_FORM_ENDPOINT = 'https://formsubmit.co/ajax/semacakir.business@gmail.com';
+// "Drop a line" form → Gmail, via Web3Forms (https://web3forms.com, free).
+// The access key is created for semacakir.business@gmail.com and only ever delivers to that inbox,
+// so it is safe to keep in public code. Manage it at https://app.web3forms.com.
+const CONTACT_FORM = {
+    endpoint: 'https://api.web3forms.com/submit',
+    accessKey: 'PASTE-WEB3FORMS-ACCESS-KEY-HERE',
+    timeoutMs: 15000
+};
 
 const loadedScriptPromises = new Map();
 
@@ -123,7 +126,13 @@ const translations = {
         bg: "Съобщението не беше изпратено. Опитайте отново след малко или ми пишете директно на semacakir.business@gmail.com.",
         tr: "Mesajınız gönderilemedi. Lütfen biraz sonra tekrar deneyin ya da doğrudan semacakir.business@gmail.com adresine yazın."
     },
-    contact_sending: { en: "Sending...", bg: "Изпращане...", tr: "Gönderiliyor..." }
+    contact_sending: { en: "Sending...", bg: "Изпращане...", tr: "Gönderiliyor..." },
+    contact_status_sending: { en: "Sending your message...", bg: "Съобщението се изпраща...", tr: "Mesajınız gönderiliyor..." },
+    contact_status_sent: {
+        en: "Message sent! Thank you, I'll get back to you soon.",
+        bg: "Съобщението е изпратено! Благодаря, ще ви отговоря скоро.",
+        tr: "Mesaj gönderildi! Teşekkürler, yakında size dönüş yapacağım."
+    }
 };
 
 const projectsData = {
@@ -542,7 +551,14 @@ function initActiveNavigation() {
 }
 
 function initContactForm() {
-    document.getElementById('contact-form')?.addEventListener('submit', sendEmail);
+    const form = document.getElementById('contact-form');
+    if (!form) return;
+    form.addEventListener('submit', sendEmail);
+    // Hide an old "sent"/"failed" note as soon as the visitor starts a new message.
+    form.addEventListener('input', () => {
+        const status = document.getElementById('contact-status');
+        if (status && !status.hidden && !status.classList.contains('is-sending')) setContactStatus(null);
+    });
 }
 
 // --- 4. LANGUAGE FUNCTION ---
@@ -853,7 +869,25 @@ function loadScriptOnce(src) {
     return promise;
 }
 
-// --- 7. CONTACT FORM (FormSubmit → Gmail) ---
+// --- 7. CONTACT FORM (Web3Forms → Gmail) ---
+
+// Status line under the Send button: always visible feedback, even if the popup library is blocked.
+function setContactStatus(state, text) {
+    const status = document.getElementById('contact-status');
+    if (!status) return;
+    const icons = { sending: 'fas fa-spinner fa-spin', success: 'fas fa-circle-check', error: 'fas fa-circle-exclamation' };
+    status.className = `form-status is-${state}`;
+    status.hidden = !state;
+    status.replaceChildren();
+    if (!state) return;
+    const icon = document.createElement('i');
+    icon.className = icons[state];
+    icon.setAttribute('aria-hidden', 'true');
+    const span = document.createElement('span');
+    span.textContent = text;
+    status.append(icon, span);
+}
+
 async function sendEmail(event) {
     event.preventDefault();
 
@@ -865,53 +899,55 @@ async function sendEmail(event) {
     const submitBtn = form.querySelector('button[type="submit"]');
     const originalBtnContent = submitBtn.innerHTML;
 
-    submitBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${t('contact_sending')}`;
-    submitBtn.disabled = true;
-
     const formData = new FormData(form);
     const name = String(formData.get('from_name') || '').trim();
     const email = String(formData.get('from_email') || '').trim();
     const message = String(formData.get('message') || '').trim();
 
-    const payload = {
-        name,
-        email,                      // FormSubmit uses this as the reply-to address
-        message,
-        _subject: `Portfolio message from ${name}`,
-        _template: 'table',
-        _captcha: 'false',
-        _honey: String(formData.get('_honey') || '') // hidden spam trap: humans leave it empty
+    const showSuccess = () => {
+        form.reset();
+        setContactStatus('success', t('contact_status_sent'));
+        showAlert({ title: t('alert_success_title'), text: t('alert_success_msg'), icon: 'success' });
     };
 
+    // Hidden spam trap: people never see it, bots fill it in. Pretend it worked and send nothing.
+    if (String(formData.get('website') || '')) {
+        showSuccess();
+        return;
+    }
+
+    submitBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${t('contact_sending')}`;
+    submitBtn.disabled = true;
+    setContactStatus('sending', t('contact_status_sending'));
+
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 20000);
+    const timeout = setTimeout(() => controller.abort(), CONTACT_FORM.timeoutMs);
 
     try {
-        const response = await fetch(CONTACT_FORM_ENDPOINT, {
+        const response = await fetch(CONTACT_FORM.endpoint, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-            body: JSON.stringify(payload),
+            body: JSON.stringify({
+                access_key: CONTACT_FORM.accessKey,
+                subject: `Portfolio message from ${name}`,
+                from_name: 'Sema Cakir — Portfolio',
+                name,
+                email,      // Web3Forms sets this as the reply-to address
+                message
+            }),
             signal: controller.signal
         });
         const result = await response.json().catch(() => ({}));
 
-        if (!response.ok || String(result.success) !== 'true') {
-            // Before the one-time activation, FormSubmit answers with "This form needs Activation...".
-            const needsActivation = /activat/i.test(String(result.message || ''));
-            throw Object.assign(new Error(result.message || `HTTP ${response.status}`), { needsActivation });
+        if (!response.ok || result.success !== true) {
+            throw new Error(result.message || `HTTP ${response.status}`);
         }
 
-        form.reset();
-        showAlert({ title: t('alert_success_title'), text: t('alert_success_msg'), icon: 'success' });
+        showSuccess();
     } catch (error) {
         console.error('Contact form:', error);
-        showAlert({
-            title: t('alert_error_title'),
-            text: error.needsActivation
-                ? 'Almost there: open the "Activate Form" email FormSubmit just sent to semacakir.business@gmail.com and click the button. After that, messages arrive in your inbox.'
-                : t('alert_error_msg'),
-            icon: error.needsActivation ? 'info' : 'error'
-        });
+        setContactStatus('error', t('alert_error_msg'));
+        showAlert({ title: t('alert_error_title'), text: t('alert_error_msg'), icon: 'error' });
     } finally {
         clearTimeout(timeout);
         submitBtn.innerHTML = originalBtnContent;
