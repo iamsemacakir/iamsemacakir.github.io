@@ -612,22 +612,104 @@ function changeLanguage(lang) {
 }
 
 // --- 5. DRAG AND FLIP LOGIC ---
+// Every .draggable behaves like a sticker on a desk:
+// - it can be moved anywhere inside its desk ([data-drag-bounds], e.g. the whole hero),
+// - while held it lifts, grows a little and swings with the movement,
+// - when released it is pressed down at a new slight angle, on top of the other
+//   stickers on the same desk but still underneath the name and the buttons.
 let isDragging = false;
 let dragStartTime = 0;
+const STICKER_BASE_Z = 10;
+const prefersReducedDragMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+function clampNumber(value, min, max) {
+    return Math.min(Math.max(value, min), max);
+}
+
+// The resting angle of a sticker: its --rot value, or the rotation it currently has.
+function getStickerRotation(el) {
+    const rot = parseFloat(getComputedStyle(el).getPropertyValue('--rot'));
+    if (!Number.isNaN(rot)) return rot;
+    const transform = getComputedStyle(el).transform;
+    if (!transform || transform === 'none') return 0;
+    const m = new DOMMatrixReadOnly(transform);
+    return Math.round(Math.atan2(m.b, m.a) * 180 / Math.PI * 10) / 10;
+}
+
+// Pick a new, natural-looking angle near the old one (never perfectly straight).
+function nextStickerRotation(current) {
+    let next = clampNumber(current + (Math.random() * 8 - 4), -9, 9);
+    if (Math.abs(next) < 1.5) next = next < 0 ? -2 : 2;
+    return Math.round(next * 10) / 10;
+}
+
+// How far (in px of its own left/top) the element may move while staying on its desk.
+function getDragLimits(el, currentLeft, currentTop) {
+    const desk = el.closest('[data-drag-bounds]') || el.parentElement;
+    const parent = el.offsetParent || el.parentElement;
+    if (!desk || !parent) return { minLeft: -Infinity, maxLeft: Infinity, minTop: -Infinity, maxTop: Infinity };
+
+    const deskRect = desk.getBoundingClientRect();
+    const parentRect = parent.getBoundingClientRect();
+    const inset = Number(desk.dataset.dragInset || 8);
+    const insetTop = Number(desk.dataset.dragInsetTop || inset);
+    const insetBottom = Number(desk.dataset.dragInsetBottom || inset);
+
+    // Position of the element inside its offset parent, without transforms.
+    const x = el.offsetLeft + parent.clientLeft;
+    const y = el.offsetTop + parent.clientTop;
+
+    const minX = deskRect.left - parentRect.left + inset;
+    const maxX = deskRect.right - parentRect.left - inset - el.offsetWidth;
+    const minY = deskRect.top - parentRect.top + insetTop;
+    const maxY = deskRect.bottom - parentRect.top - insetBottom - el.offsetHeight;
+
+    return {
+        minLeft: currentLeft + (minX - x),
+        maxLeft: currentLeft + Math.max(maxX, minX) - x,
+        minTop: currentTop + (minY - y),
+        maxTop: currentTop + Math.max(maxY, minY) - y,
+    };
+}
+
+// The last sticker touched goes on top of the others on the same desk.
+// z-indexes stay small (10, 11, 12…), so the hero name and buttons always stay above.
+function bringStickerToFront(el) {
+    const desk = el.parentElement;
+    if (!desk) return;
+    const stickers = Array.from(desk.children).filter(c => c.classList.contains('draggable'));
+    stickers.forEach(c => {
+        if (!c.dataset.stackOrder) {
+            const z = parseInt(getComputedStyle(c).zIndex, 10);
+            c.dataset.stackOrder = Number.isNaN(z) ? String(STICKER_BASE_Z) : String(z);
+        }
+    });
+    stickers
+        .filter(c => c !== el)
+        .sort((a, b) => Number(a.dataset.stackOrder) - Number(b.dataset.stackOrder))
+        .concat(el)
+        .forEach((c, i) => {
+            c.dataset.stackOrder = String(STICKER_BASE_Z + i);
+            c.style.zIndex = c.dataset.stackOrder;
+        });
+}
 
 function makeDraggable(el) {
     let dragStartX = 0, dragStartY = 0;
     let initialLeft = 0, initialTop = 0;
-    let maxLeft = Infinity, maxTop = Infinity;
+    let limits = null;
+    let restRotation = 0;
+    let swing = 0;
+    let lastX = 0;
     let pendingFlipCard = null;
 
     el.addEventListener('pointerdown', startDrag);
 
     function startDrag(event) {
-        if (!event.isPrimary || ['a', 'i', 'button'].includes(event.target.tagName.toLowerCase())) return;
+        if (!event.isPrimary || event.button > 0 || event.target.closest('a, button, input, textarea, select')) return;
         event.preventDefault();
         pendingFlipCard = event.target.closest('[data-flip-card]');
-        dragStartX = event.clientX;
+        dragStartX = lastX = event.clientX;
         dragStartY = event.clientY;
         initDrag();
         el.setPointerCapture(event.pointerId);
@@ -639,50 +721,62 @@ function makeDraggable(el) {
     function initDrag() {
         isDragging = false;
         dragStartTime = Date.now();
-        el.style.animation = 'none';
-        el.classList.add('drag-active');
+        restRotation = getStickerRotation(el);
+        swing = 0;
 
-        const style = window.getComputedStyle(el);
-        initialLeft = parseFloat(style.left) || 0;
-        initialTop = parseFloat(style.top) || 0;
-
-        if (style.position === 'static') el.style.position = 'relative';
-        if (style.right !== 'auto' && el.style.right !== '') el.style.right = 'auto';
-        if (style.bottom !== 'auto' && el.style.bottom !== '') el.style.bottom = 'auto';
-
-        const container = el.parentElement;
-        if (container) {
-            maxLeft = Math.max(container.clientWidth - el.offsetWidth, 0);
-            maxTop = Math.max(container.clientHeight - el.offsetHeight, 0);
-
-            const children = Array.from(container.children).filter(c => c.classList.contains('draggable'));
-            children.forEach(c => {
-                if (!c.dataset.baseZIndex) {
-                    const baseZIndex = window.getComputedStyle(c).zIndex;
-                    c.dataset.baseZIndex = baseZIndex === 'auto' ? '10' : baseZIndex;
-                }
-                c.style.zIndex = c.dataset.baseZIndex;
-            });
+        const style = getComputedStyle(el);
+        if (style.position === 'absolute' || style.position === 'fixed') {
+            // Hero stickers are placed with top/left/right/bottom percentages.
+            // Pin them to their current pixel spot with only left/top, otherwise
+            // left + right together stretch the sticker into a huge invisible box.
+            initialLeft = el.offsetLeft;
+            initialTop = el.offsetTop;
+        } else {
+            if (style.position === 'static') el.style.position = 'relative';
+            initialLeft = parseFloat(style.left) || 0;
+            initialTop = parseFloat(style.top) || 0;
         }
-        el.style.zIndex = 1000;
+        el.style.left = initialLeft + 'px';
+        el.style.top = initialTop + 'px';
+        el.style.right = 'auto';
+        el.style.bottom = 'auto';
+
+        el.style.animation = 'none';
+        el.style.setProperty('--rot', restRotation + 'deg');
+        limits = getDragLimits(el, initialLeft, initialTop);
+        bringStickerToFront(el);
+        el.dataset.dragged = 'true';
+    }
+
+    function lift() {
+        el.classList.add('drag-active');
+        el.style.transition = prefersReducedDragMotion ? 'none' : 'transform 0.15s ease-out';
+        applyHeldTransform();
+    }
+
+    function applyHeldTransform() {
+        const angle = prefersReducedDragMotion ? restRotation : restRotation + swing;
+        el.style.transform = `rotate(${angle}deg) scale(1.05)`;
     }
 
     function elementDrag(event) {
         event.preventDefault();
         // Ignore the few pixels of finger jitter in a tap, so a tap still flips the card.
         if (!isDragging && Math.hypot(event.clientX - dragStartX, event.clientY - dragStartY) < 5) return;
-        isDragging = true;
-        setNewPos(event.clientX, event.clientY);
-    }
+        if (!isDragging) {
+            isDragging = true;
+            lift();
+        }
 
-    function setNewPos(clientX, clientY) {
-        const dx = clientX - dragStartX;
-        const dy = clientY - dragStartY;
-        const nextLeft = Math.min(Math.max(initialLeft + dx, 0), maxLeft);
-        const nextTop = Math.min(Math.max(initialTop + dy, 0), maxTop);
+        // Swing a little in the direction of movement, like paper held at one corner.
+        swing = clampNumber(swing * 0.7 + (event.clientX - lastX) * 0.5, -12, 12);
+        lastX = event.clientX;
+        applyHeldTransform();
 
-        el.style.left = nextLeft + "px";
-        el.style.top = nextTop + "px";
+        const nextLeft = clampNumber(initialLeft + event.clientX - dragStartX, limits.minLeft, limits.maxLeft);
+        const nextTop = clampNumber(initialTop + event.clientY - dragStartY, limits.minTop, limits.maxTop);
+        el.style.left = nextLeft + 'px';
+        el.style.top = nextTop + 'px';
     }
 
     function closeDragElement(event) {
@@ -692,6 +786,16 @@ function makeDraggable(el) {
         el.removeEventListener('pointermove', elementDrag);
         el.removeEventListener('pointerup', closeDragElement);
         el.removeEventListener('pointercancel', closeDragElement);
+
+        if (isDragging) {
+            // Press the sticker down at a new slight angle, with a small bounce.
+            const settled = nextStickerRotation(restRotation);
+            el.style.setProperty('--rot', settled + 'deg');
+            el.style.transition = prefersReducedDragMotion ? 'none' : 'transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1)';
+            el.style.transform = `rotate(${settled}deg)`;
+        } else {
+            el.style.transform = `rotate(${restRotation}deg)`;
+        }
         el.classList.remove('drag-active');
 
         // pointercancel = the browser took over (e.g. the visitor scrolled the page): not a tap.
@@ -708,6 +812,17 @@ function makeDraggable(el) {
         }
     }
 }
+
+// Keep moved stickers on their desk when the window is resized.
+window.addEventListener('resize', () => {
+    document.querySelectorAll('.draggable[data-dragged]').forEach((el) => {
+        const left = parseFloat(el.style.left) || 0;
+        const top = parseFloat(el.style.top) || 0;
+        const limits = getDragLimits(el, left, top);
+        el.style.left = clampNumber(left, limits.minLeft, limits.maxLeft) + 'px';
+        el.style.top = clampNumber(top, limits.minTop, limits.maxTop) + 'px';
+    });
+});
 
 function flipCard(cardElement) {
     if (isDragging) return;
