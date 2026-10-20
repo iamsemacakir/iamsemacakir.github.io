@@ -499,10 +499,15 @@ body.is-locked {
   cursor: grabbing;
 }
 
+/* While a sticker is held: above everything, with a deeper shadow under the paper itself
+   (the rotation, lift and swing are set from main.js). */
 .drag-active {
-  z-index: 999 !important;
-  box-shadow: 0 40px 80px -20px rgba(0, 0, 0, 0.5) !important;
-  transition: transform 0.1s !important;
+  z-index: 1000 !important;
+  cursor: grabbing;
+}
+
+.drag-active > * {
+  box-shadow: 0 28px 50px -18px rgba(0, 0, 0, 0.55) !important;
 }
 
 /* --- Certificates --- */
