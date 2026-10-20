@@ -118,6 +118,7 @@ const translations = {
     modal_gallery: { en: "Gallery", bg: "Галерия", tr: "Galeri" },
     modal_workflow_title: { en: "Features / Workflow", bg: "Функции / Работен процес", tr: "Özellikler / İş Akışı" },
     modal_btn: { en: "View Repository", bg: "Вижте хранилището", tr: "Depoyu Görüntüle" },
+    modal_live_btn: { en: "Live Demo", bg: "Вижте сайта", tr: "Canlı Demo" },
     alert_success_title: { en: "Message Sent!", bg: "Изпратено!", tr: "Gönderildi!" },
     alert_success_msg: { en: "Thank you for contacting me. I will get back to you soon.", bg: "Благодаря, че се свързахте с мен. Ще ви отговоря скоро.", tr: "İletişime geçtiğiniz için teşekkürler. Size yakında dönüş yapacağım." },
     alert_error_title: { en: "Oops!", bg: "Опа!", tr: "Hay aksi!" },
@@ -151,7 +152,8 @@ const projectsData = {
         },
         img: "images/langforu/index.webp",
         gallery: ["images/langforu/courses.webp", "images/langforu/blog.webp", "images/langforu/blog-details.webp"],
-        link: "https://github.com/semayashar/LangForU_2025"
+        link: "https://github.com/semayashar/LangForU_2025",
+        live: "https://langforu.onrender.com/"
     },
     travelis: {
         title: "Travelis",
@@ -168,7 +170,8 @@ const projectsData = {
         },
         img: "images/travelis/index.webp",
         gallery: ["images/travelis/account-account.webp", "images/travelis/hotels-hotel-grid.webp", "images/travelis/support-ticket-list.webp"],
-        link: "https://github.com/semayashar"
+        link: "https://github.com/semayashar",
+        live: "https://travelis.sadulov.com/"
     },
     sportarete: {
         title: "SportArete",
@@ -203,6 +206,23 @@ const projectsData = {
         img: "images/conexion/index.webp",
         gallery: ["images/conexion/connect.webp", "images/conexion/about.webp", "images/conexion/privacy.webp"],
         link: "https://github.com/semayashar"
+    },
+    portfolio: {
+        title: "Portfolio",
+        tags: ["HTML", "Tailwind CSS", "JavaScript", "Web3Forms", "GitHub Pages"],
+        desc: {
+            en: "This site: a personal portfolio designed like a developer's desk, with draggable sticky notes, flip-over certificates and a project browser styled as a Finder window. It is available in English, Bulgarian and Turkish, with light and dark themes. <br><br> Built with plain HTML, Tailwind CSS and JavaScript, tuned for fast loading and sized for phones, tablets and large screens.",
+            bg: "Този сайт: лично портфолио, проектирано като бюро на програмист, с бележки, които се местят, сертификати, които се обръщат, и браузър за проекти във вид на прозорец на Finder. Достъпен е на английски, български и турски, със светла и тъмна тема. <br><br> Изграден с HTML, Tailwind CSS и JavaScript, оптимизиран за бързо зареждане и пригоден за телефони, таблети и големи екрани.",
+            tr: "Bu site: sürüklenebilir notlar, çevrilebilen sertifikalar ve Finder penceresi tarzında bir proje tarayıcısıyla bir yazılımcı masası gibi tasarlanmış kişisel portföyüm. İngilizce, Bulgarca ve Türkçe olarak, açık ve koyu temalarla sunuluyor. <br><br> HTML, Tailwind CSS ve JavaScript ile geliştirildi; hızlı yüklenecek şekilde optimize edildi ve telefon, tablet ve büyük ekranlara uyumlu."
+        },
+        workflow: {
+            en: ["Interactive desk: drag the notes and cards, flip the certificates.", "Three languages (EN / BG / TR) and a remembered light / dark theme.", "Contact form that delivers messages straight to my inbox.", "Optimized images and self-hosted assets for fast loading."],
+            bg: ["Интерактивно бюро: местете бележките и картите, обръщайте сертификатите.", "Три езика (EN / BG / TR) и запомняне на светла / тъмна тема.", "Форма за контакт, която доставя съобщенията директно в пощата ми.", "Оптимизирани изображения и локални ресурси за бързо зареждане."],
+            tr: ["Etkileşimli masa: notları ve kartları sürükleyin, sertifikaları çevirin.", "Üç dil (EN / BG / TR) ve hatırlanan açık / koyu tema.", "Mesajları doğrudan e-posta kutuma ileten iletişim formu.", "Hızlı yükleme için optimize edilmiş görseller ve yerel kaynaklar."]
+        },
+        img: "images/portfolio/home.webp",
+        gallery: ["images/portfolio/about.webp", "images/portfolio/skills.webp", "images/portfolio/certificates.webp"],
+        link: "https://github.com/iamsemacakir/iamsemacakir.github.io"
     }
 };
 
@@ -737,6 +757,14 @@ function renderProjectModal(id) {
     document.getElementById('modal-title').textContent = project.title;
     document.getElementById('modal-desc').innerHTML = project.desc[lang] || project.desc.en;
     document.getElementById('modal-link').href = project.link;
+
+    // "Live Demo" button only for projects that are hosted.
+    const liveLink = document.getElementById('modal-live');
+    if (liveLink) {
+        liveLink.href = project.live || '#';
+        liveLink.classList.toggle('hidden', !project.live);
+        liveLink.classList.toggle('inline-flex', Boolean(project.live));
+    }
 
     const modalImage = document.getElementById('modal-img');
     modalImage.src = imageVariant(project.img, 'md');
