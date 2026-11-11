@@ -119,6 +119,7 @@ const translations = {
     modal_workflow_title: { en: "Features / Workflow", bg: "Функции / Работен процес", tr: "Özellikler / İş Akışı" },
     modal_btn: { en: "View Repository", bg: "Вижте хранилището", tr: "Depoyu Görüntüle" },
     modal_live_btn: { en: "Live Demo", bg: "Вижте сайта", tr: "Canlı Demo" },
+    modal_more: { en: "more", bg: "още", tr: "daha" },
     alert_success_title: { en: "Message Sent!", bg: "Изпратено!", tr: "Gönderildi!" },
     alert_success_msg: { en: "Thank you for contacting me. I will get back to you soon.", bg: "Благодаря, че се свързахте с мен. Ще ви отговоря скоро.", tr: "İletişime geçtiğiniz için teşekkürler. Size yakında dönüş yapacağım." },
     alert_error_title: { en: "Oops!", bg: "Опа!", tr: "Hay aksi!" },
@@ -136,7 +137,93 @@ const translations = {
     }
 };
 
+// Hydra has a large gallery. Each row is [file in images/hydra, EN, BG, TR, isDesignMockup];
+// mockups are screens designed for the next iteration and are labelled as such in their caption.
+const DESIGN_MOCKUP_LABEL = { en: " — design mockup", bg: " – проектен макет", tr: " — tasarım maketi" };
+
+function hydraShots(rows) {
+    return rows.map(([file, en, bg, tr, isMockup]) => ({
+        src: `images/hydra/${file}.webp`,
+        caption: isMockup
+            ? { en: en + DESIGN_MOCKUP_LABEL.en, bg: bg + DESIGN_MOCKUP_LABEL.bg, tr: tr + DESIGN_MOCKUP_LABEL.tr }
+            : { en, bg, tr }
+    }));
+}
+
 const projectsData = {
+    hydra: {
+        title: "Hydra",
+        tags: ["UI/UX Design", "React", "Next.js", "TypeScript", "Design System", "Keycloak", "RUP"],
+        desc: {
+            en: "Hydra gives a team one live map of a distributed system: its services, what each one depends on, which version runs where, how healthy it is and what a failure could reach. It reads a repository's Docker Compose file without ever running it, draws the map and keeps it live as health changes arrive, with the planned work right next to the components it changes. <br><br> A team project, run with RUP. My part was the interface: I wrote the Creative Design Brief and the Design Comps (the user-interface prototype), then built the public landing page and redesigned every signed-in page in React and Next.js, in light and dark themes, for phones, and for every state a page can be in.",
+            bg: "Hydra дава на екипа една жива карта на разпределена система: услугите ѝ, от какво зависи всяка от тях, коя версия къде работи, колко е здрава и докъде може да стигне един отказ. Тя чете файла Docker Compose на хранилището, без никога да го изпълнява, начертава картата и я поддържа жива, докато пристигат промените в здравето, а планираната работа стои точно до компонентите, които променя. <br><br> Екипен проект, воден по RUP. Моята част беше интерфейсът: написах творческото задание за дизайна (Creative Design Brief) и дизайн макетите (Design Comps – прототипа на потребителския интерфейс), след което изградих публичната начална страница и преработих всяка страница след вход с React и Next.js – в светла и тъмна тема, за телефони и за всяко състояние, в което може да бъде една страница.",
+            tr: "Hydra, bir ekibe dağıtık bir sistemin tek bir canlı haritasını sunar: servislerini, her birinin neye bağlı olduğunu, hangi sürümün nerede çalıştığını, ne kadar sağlıklı olduğunu ve bir arızanın nereye kadar ulaşabileceğini. Bir deponun Docker Compose dosyasını hiç çalıştırmadan okur, haritayı çizer ve sağlık değişiklikleri geldikçe canlı tutar; planlanan işler de değiştirdikleri bileşenlerin hemen yanında durur. <br><br> RUP ile yürütülen bir ekip projesi. Benim payım arayüzdü: Creative Design Brief'i (yaratıcı tasarım özeti) ve Design Comps'u (kullanıcı arayüzü prototipi) yazdım; ardından herkese açık açılış sayfasını geliştirdim ve giriş sonrası tüm sayfaları React ve Next.js ile yeniden tasarladım — açık ve koyu temada, telefonlar için ve bir sayfanın içinde bulunabileceği her durum için."
+        },
+        workflow: {
+            en: ["Live topology: every service and dependency on one map, with health, versions and an impact analysis of what a failure could reach.", "Read-only import: Hydra scans a repository's Docker Compose file, shows what it found and applies it only after you confirm.", "Boards next to the system: a bug links to the component it affects and shows up on the map.", "A landing page that tells the story in motion: the compose file is read, the map is drawn, a failure travels back along the dependencies.", "Every state designed: empty, loading, slow, offline, errors, no access, expired session — in light and dark themes and on phones."],
+            bg: ["Жива топология: всяка услуга и зависимост на една карта, със здраве, версии и анализ докъде може да стигне един отказ.", "Вмъкване само за четене: Hydra сканира файла Docker Compose на хранилището, показва какво е намерила и го прилага едва след потвърждение.", "Дъски до самата система: бъгът се свързва с компонента, който засяга, и се вижда на картата.", "Начална страница, която разказва историята в движение: файлът се прочита, картата се начертава, отказът се връща назад по зависимостите.", "Проектирано всяко състояние: празно, зареждане, бавна мрежа, без връзка, грешки, без достъп, изтекла сесия – в светла и тъмна тема и на телефон."],
+            tr: ["Canlı topoloji: her servis ve bağımlılık tek haritada; sağlık durumu, sürümler ve bir arızanın nereye ulaşabileceğini gösteren etki analizi.", "Salt okunur içe aktarma: Hydra deponun Docker Compose dosyasını tarar, bulduklarını gösterir ve yalnızca siz onayladıktan sonra uygular.", "Sistemin yanında panolar: bir hata, etkilediği bileşene bağlanır ve haritada görünür.", "Hikâyeyi hareketle anlatan açılış sayfası: compose dosyası okunur, harita çizilir, arıza bağımlılıklar boyunca geriye doğru ilerler.", "Her durum tasarlandı: boş, yükleniyor, yavaş ağ, çevrimdışı, hatalar, erişim yok, oturum süresi doldu — açık ve koyu temada ve telefonda."]
+        },
+        img: "images/hydra/landing-hero-dark.webp",
+        imgCaption: { en: "Landing page — hero, dark theme", bg: "Начален екран (hero), тъмна тема", tr: "Açılış sayfası — hero, koyu tema" },
+        gallery: hydraShots([
+        ["landing-hero-light", "Landing page — hero, light theme", "Начален екран (hero), светла тема", "Açılış sayfası — hero, açık tema"],
+        ["landing-how", "Landing page — How it works", "Начална страница — Как работи", "Açılış sayfası — Nasıl çalışır"],
+        ["landing-capabilities", "Landing page — Capabilities", "Начална страница — Възможности", "Açılış sayfası — Yetenekler"],
+        ["landing-explorer", "Landing page — Impact explorer, dark theme", "Изследване на влиянието (Impact explorer), тъмна тема", "Açılış sayfası — Etki gezgini, koyu tema"],
+        ["landing-start", "Landing page — Get started and the closing panel", "Първи стъпки (Get started) и заключителният панел", "Açılış sayfası — Başlarken ve kapanış paneli"],
+        ["signin-light", "Sign in, light theme", "Вход, светла тема", "Giriş, açık tema"],
+        ["signin-dark", "Sign in, dark theme", "Вход, тъмна тема", "Giriş, koyu tema"],
+        ["projects", "Projects", "Проекти", "Projeler"],
+        ["new-project", "Create a project", "Създаване на проект", "Proje oluşturma"],
+        ["new-project-members", "Create a project with a repository and invited members", "Създаване на проект с вмъкване на хранилище и покана на членове", "Depo ve davet edilen üyelerle proje oluşturma", true],
+        ["import", "Import a repository", "Вмъкване на хранилище", "Depo içe aktarma"],
+        ["import-azure-devops", "Import a repository from Azure DevOps", "Вмъкване на хранилище от Azure DevOps", "Azure DevOps'tan depo içe aktarma", true],
+        ["overview", "Project overview", "Преглед на проекта (Overview)", "Proje özeti"],
+        ["overview-lower", "Project overview — lower part", "Overview – долната част", "Proje özeti — alt kısım"],
+        ["topology", "Topology — the live map", "Топология – живата карта", "Topoloji — canlı harita"],
+        ["topology-impact", "Impact analysis — what a failure could reach", "Анализ на влиянието – докъде може да стигне един отказ", "Etki analizi — bir arızanın nereye ulaşabileceği"],
+        ["topology-edge", "A dependency and its evidence", "Зависимост и нейните улики", "Bir bağımlılık ve kanıtları"],
+        ["topology-dark", "Topology during impact analysis, dark theme", "Топология по време на анализ на влиянието, тъмна тема", "Etki analizi sırasında topoloji, koyu tema"],
+        ["boards", "Boards", "Дъски (Boards)", "Panolar"],
+        ["boards-drawer", "A work item in the side panel", "Work item в страничния панел", "Yan paneldeki iş öğesi"],
+        ["backlog", "Backlog", "Изглед Backlog", "Backlog görünümü"],
+        ["boards-sprint", "Board of the current sprint", "Дъска на текущия спринт", "Güncel sprintin panosu", true],
+        ["work-item-fields", "Work item with sprint, dates and custom fields", "Work item със спринт, дати и потребителски полета", "Sprint, tarihler ve özel alanlarla iş öğesi", true],
+        ["backlog-sprints", "Backlog grouped by sprint", "Изглед Backlog, групиран по спринт", "Sprintlere göre gruplanmış backlog", true],
+        ["sprints", "Sprints view and creating a sprint", "Изглед Sprints и създаване на спринт", "Sprint görünümü ve sprint oluşturma", true],
+        ["custom-fields", "Custom work item fields (Settings)", "Потребителски полета на work item-ите (Settings)", "Özel iş öğesi alanları (Ayarlar)", true],
+        ["components", "Components", "Компоненти", "Bileşenler"],
+        ["component-add", "Adding a component by hand", "Ръчно добавяне на компонент", "Elle bileşen ekleme", true],
+        ["environments", "Environments", "Среди", "Ortamlar"],
+        ["comparison", "Compare environments", "Сравнение на среди", "Ortam karşılaştırma"],
+        ["events", "Events", "Събития", "Olaylar"],
+        ["deployments", "Deployments", "Внедрявания", "Dağıtımlar"],
+        ["state-scan-running", "Integrations — a scan shows its progress", "Интеграции – сканирането показва работата си", "Entegrasyonlar — tarama ilerlemesini gösterir"],
+        ["settings", "Settings", "Настройки", "Ayarlar"],
+        ["settings-members", "Settings — members, roles and invitations", "Настройки: членове, роли и покани", "Ayarlar — üyeler, roller ve davetler", true],
+        ["phone-public", "Landing page and sign-in on a phone", "Началната страница и входът на телефон", "Telefonda açılış sayfası ve giriş"],
+        ["phone-app", "Overview, topology, board and deployments on a phone (dark theme)", "Overview, топология, дъска и внедрявания на телефон (тъмна тема)", "Telefonda özet, topoloji, pano ve dağıtımlar (koyu tema)"],
+        ["phone-states", "Offline, slow network, success and no results on a phone", "Без връзка, бавна мрежа, успех и няма резултати на телефон", "Telefonda çevrimdışı, yavaş ağ, başarı ve sonuç yok durumları"],
+        ["state-empty-projects", "No projects yet", "Все още няма проекти", "Henüz proje yok"],
+        ["state-empty-topology", "A map with nothing to draw yet", "Карта, на която още няма какво да се изчертае", "Henüz çizilecek bir şey olmayan harita"],
+        ["state-loading-overview", "Overview while it loads", "Overview, докато се зарежда", "Yüklenirken proje özeti"],
+        ["state-error-overview", "The server returned an error", "Сървърът върна грешка", "Sunucu hata döndürdü"],
+        ["state-offline", "Offline", "Без връзка", "Çevrimdışı"],
+        ["state-no-results-topology", "A typo in the topology search", "Правописна грешка в търсенето на топологията", "Topoloji aramasında yazım hatası"],
+        ["state-access-denied", "No access to the project", "Няма достъп до проекта", "Projeye erişim yok"],
+        ["state-draft-board", "An unsaved work item is offered back", "Незаписан work item се предлага обратно", "Kaydedilmemiş iş öğesi geri sunulur"],
+        ["state-validation", "Form errors", "Грешки във формуляр", "Form hataları"],
+        ["state-success-dark", "Environment added, dark theme", "Добавена среда, тъмна тема", "Ortam eklendi, koyu tema"],
+        ["navigation-map", "Navigation map between the pages", "Карта на навигацията между страниците", "Sayfalar arası gezinme haritası"],
+        ["anatomy", "Anatomy of a workspace page", "Анатомия на страница в работното пространство", "Bir çalışma alanı sayfasının anatomisi"],
+        ["style-colour-light", "Design system — colours, light theme", "Дизайн система – цветове, светла тема", "Tasarım sistemi — renkler, açık tema"],
+        ["style-colour-dark", "Design system — colours, dark theme", "Дизайн система – цветове, тъмна тема", "Tasarım sistemi — renkler, koyu tema"],
+        ["style-type", "Design system — typography", "Дизайн система – типография", "Tasarım sistemi — tipografi"],
+        ["style-blocks-light", "Design system — building blocks, light theme", "Дизайн система – градивни елементи, светла тема", "Tasarım sistemi — yapı taşları, açık tema"],
+        ]),
+        link: "https://github.com/iamsemacakir/hydra/tree/feature/ui-redesign"
+    },
     langforu: {
         title: "LangForU",
         tags: ["Java", "Spring Boot", "MySQL", "OpenAI API", "Thymeleaf", "HTML/CSS/JS"],
@@ -250,6 +337,7 @@ function initApp() {
     initLazyVisibleImages();
     initImageFallbacks();
     initModalControls();
+    initFullscreenSwipe();
     initActiveNavigation();
     initContactForm();
 
@@ -830,13 +918,31 @@ function flipCard(cardElement) {
 }
 
 // --- 6. MODALS & FS VIEWER LOGIC ---
-let fsImages = [];
+let fsImages = []; // [{ src, caption? }] — the main image first, then the gallery
 let fsCurrentIndex = 0;
+
+// The popup shows at most this many gallery tiles; a bigger gallery ends with a "+N more" tile
+// and the rest is browsed in the fullscreen viewer.
+const GALLERY_PREVIEW_TILES = 6;
 
 // Each project screenshot exists in three sizes: "-sm" (gallery thumbnail),
 // "-md" (popup preview) and the plain file (fullscreen viewer).
 function imageVariant(src, size) {
     return src.replace(/\.webp$/, `-${size}.webp`);
+}
+
+// A gallery entry is either a path or { src, caption: { en, bg, tr } }.
+function toShot(item) {
+    return typeof item === 'string' ? { src: item } : item;
+}
+
+function shotCaption(shot, lang) {
+    if (!shot?.caption) return '';
+    return shot.caption[lang] || shot.caption.en || '';
+}
+
+function currentLanguage() {
+    return localStorage.getItem('pref-lang') || 'en';
 }
 
 // Warm the cache for the neighbouring fullscreen images so the arrows feel instant.
@@ -846,7 +952,7 @@ function preloadFsNeighbours() {
         const next = fsImages[(fsCurrentIndex + step + fsImages.length) % fsImages.length];
         const img = new Image();
         img.decoding = 'async';
-        img.src = next;
+        img.src = next.src;
     });
 }
 
@@ -883,7 +989,7 @@ function renderProjectModal(id) {
 
     const modalImage = document.getElementById('modal-img');
     modalImage.src = imageVariant(project.img, 'md');
-    modalImage.alt = `${project.title} main preview`;
+    modalImage.alt = shotCaption({ caption: project.imgCaption }, lang) || `${project.title} main preview`;
     applyImageFallback(modalImage);
 
     const tags = document.getElementById('modal-tags');
@@ -902,21 +1008,51 @@ function renderProjectModal(id) {
         return li;
     }));
 
-    fsImages = [project.img, ...project.gallery];
-    const galleryGrid = document.getElementById('modal-gallery-grid');
-    galleryGrid.replaceChildren(...project.gallery.map((imageSrc, index) => createGalleryButton(imageSrc, index + 1, project.title)));
+    const gallery = project.gallery.map(toShot);
+    fsImages = [{ src: project.img, caption: project.imgCaption }, ...gallery];
+
+    // Small galleries show every tile. A big one shows the first tiles and ends with "+N more",
+    // which opens the fullscreen viewer where every image can be browsed with its caption.
+    const fitsInPreview = gallery.length <= GALLERY_PREVIEW_TILES;
+    const tileCount = fitsInPreview ? gallery.length : GALLERY_PREVIEW_TILES - 1;
+    const tiles = gallery.slice(0, tileCount).map((shot, index) => createGalleryButton(shot, index + 1, project.title, lang));
+    if (!fitsInPreview) {
+        tiles.push(createMoreButton(gallery[tileCount], tileCount + 1, gallery.length - tileCount, project.title, lang));
+    }
+    document.getElementById('modal-gallery-grid').replaceChildren(...tiles);
 }
 
-function createGalleryButton(imageSrc, index, projectTitle) {
+function createMoreButton(shot, index, remaining, projectTitle, lang) {
+    const button = createGalleryButton(shot, index, projectTitle, lang);
+    const moreLabel = translations.modal_more[lang] || translations.modal_more.en;
+    button.setAttribute('aria-label', `${projectTitle}: +${remaining} ${moreLabel}`);
+    button.removeAttribute('title');
+
+    const more = document.createElement('span');
+    more.className = 'absolute inset-0 flex flex-col items-center justify-center bg-black/70 backdrop-blur-[2px] group-hover:bg-black/80 text-white font-mono transition-colors';
+    const count = document.createElement('span');
+    count.className = 'text-xl sm:text-2xl font-bold leading-none';
+    count.textContent = `+${remaining}`;
+    const label = document.createElement('span');
+    label.className = 'mt-1 text-[10px] uppercase tracking-[0.2em]';
+    label.textContent = moreLabel;
+    more.append(count, label);
+    button.appendChild(more);
+    return button;
+}
+
+function createGalleryButton(shot, index, projectTitle, lang) {
+    const caption = shotCaption(shot, lang);
     const button = document.createElement('button');
     button.type = 'button';
     button.className = 'h-20 sm:h-28 bg-gray-200 dark:bg-gray-800 rounded-lg border border-gray-300 dark:border-gray-700 overflow-hidden cursor-pointer group relative';
+    if (caption) button.title = caption;
     button.addEventListener('click', () => openFullscreen(index));
 
     const image = document.createElement('img');
-    image.src = imageVariant(imageSrc, 'sm');
+    image.src = imageVariant(shot.src, 'sm');
     image.dataset.fallback = 'https://placehold.co/300x200?text=Gallery';
-    image.alt = `${projectTitle} gallery preview ${index}`;
+    image.alt = caption || `${projectTitle} gallery preview ${index}`;
     image.loading = 'lazy';
     image.decoding = 'async';
     image.className = 'w-full h-full object-cover group-hover:scale-110 transition-transform duration-500';
@@ -945,12 +1081,28 @@ function closeModal() {
 function openFullscreen(index = 0) {
     if (!fsImages.length) return;
     fsCurrentIndex = index;
-    const fsImg = document.getElementById('fs-img');
-    fsImg.src = fsImages[fsCurrentIndex];
-    fsImg.alt = `${projectsData[activeProjectId]?.title || 'Project'} preview ${fsCurrentIndex + 1}`;
+    showFsImage();
     const modal = document.getElementById('fs-viewer');
     modal.classList.remove('hidden');
     modal.classList.add('visible');
+}
+
+// Puts the current image in the viewer with its position ("12 / 75") and caption.
+function showFsImage() {
+    const shot = fsImages[fsCurrentIndex];
+    if (!shot) return;
+    const caption = shotCaption(shot, currentLanguage());
+    const fsImg = document.getElementById('fs-img');
+    fsImg.src = shot.src;
+    fsImg.alt = caption || `${projectsData[activeProjectId]?.title || 'Project'} preview ${fsCurrentIndex + 1}`;
+
+    const counter = document.getElementById('fs-counter');
+    if (counter) counter.textContent = `${fsCurrentIndex + 1} / ${fsImages.length}`;
+    const captionText = document.getElementById('fs-caption-text');
+    if (captionText) {
+        captionText.textContent = caption;
+        captionText.hidden = !caption;
+    }
     preloadFsNeighbours();
 }
 
@@ -969,10 +1121,34 @@ function changeFsImage(direction) {
     fsImg.style.opacity = 0;
 
     setTimeout(() => {
-        fsImg.src = fsImages[fsCurrentIndex];
+        showFsImage();
         fsImg.style.opacity = 1;
-        preloadFsNeighbours();
     }, 150);
+}
+
+// On phones and tablets a horizontal swipe moves to the next or previous image.
+function initFullscreenSwipe() {
+    const viewer = document.getElementById('fs-viewer');
+    if (!viewer) return;
+    let startX = null;
+    let startY = 0;
+
+    viewer.addEventListener('touchstart', (event) => {
+        if (event.touches.length !== 1) {
+            startX = null;
+            return;
+        }
+        startX = event.touches[0].clientX;
+        startY = event.touches[0].clientY;
+    }, { passive: true });
+
+    viewer.addEventListener('touchend', (event) => {
+        if (startX === null) return;
+        const dx = event.changedTouches[0].clientX - startX;
+        const dy = event.changedTouches[0].clientY - startY;
+        startX = null;
+        if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) changeFsImage(dx < 0 ? 1 : -1);
+    }, { passive: true });
 }
 
 document.addEventListener('keydown', (e) => {
