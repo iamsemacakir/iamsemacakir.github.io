@@ -151,6 +151,55 @@ function hydraShots(rows) {
 }
 
 const projectsData = {
+    autoflow: {
+        title: "AutoFlow",
+        tags: ["C#", ".NET 10", "ASP.NET Core", "EF Core", "PostgreSQL", "Clean Architecture", "DDD", "React", "TypeScript"],
+        desc: {
+            en: "AutoFlow is a management system for independent car workshops: customers and their vehicles, work orders from estimate to completion, and bays with appointments on a 15-minute grid. The backend is an ASP.NET Core API on PostgreSQL, built with Clean Architecture and domain-driven design. Every rule lives in the domain model, from VIN validation and odometer readings that never go backwards to double-booking checks that PostgreSQL also enforces with exclusion constraints. Errors come back as RFC 9457 problem responses with stable codes, and 17 architecture decision records explain the choices. <br><br> The live demo is the first cut of the React and TypeScript client. It runs a TypeScript port of the backend rules in the browser, so every screen can be tried without a server, and a log docked at the bottom shows each API request and answer, refusals included.",
+            bg: "AutoFlow е система за управление на независими автосервизи: клиенти и техните автомобили, работни поръчки от офертата до приключването и ремонтни боксове с часове за посещение в мрежа от по 15 минути. Бекендът е ASP.NET Core API с PostgreSQL, изграден по Clean Architecture и domain-driven design. Всяко правило живее в модела на домейна – от проверката на VIN и показанията на километража, които никога не намаляват, до забраната за двойни записи, която PostgreSQL налага и сам чрез exclusion constraints. Грешките се връщат като отговори по RFC 9457 със стабилни кодове, а 17 записа за архитектурни решения (ADR) обясняват изборите. <br><br> Демото на живо е първата версия на клиента с React и TypeScript. То изпълнява в браузъра TypeScript версия на правилата на бекенда, така че всеки екран може да се пробва без сървър, а дневник в долната част показва всяка заявка към API и отговора ѝ, включително отказите.",
+            tr: "AutoFlow, bağımsız oto servisleri için bir yönetim sistemidir: müşteriler ve araçları, tekliften tamamlanmaya kadar iş emirleri ve 15 dakikalık bir ızgarada randevularıyla servis bölmeleri. Backend, Clean Architecture ve domain-driven design ile geliştirilmiş, PostgreSQL üzerinde çalışan bir ASP.NET Core API'sidir. Her kural domain modelinde yaşar: VIN doğrulamasından asla geriye gitmeyen kilometre okumalarına ve PostgreSQL'in exclusion constraint'lerle de uyguladığı çift rezervasyon kontrollerine kadar. Hatalar kararlı kodlarla RFC 9457 problem yanıtları olarak döner; 17 mimari karar kaydı (ADR) seçimleri açıklar. <br><br> Canlı demo, React ve TypeScript istemcisinin ilk sürümüdür. Backend kurallarının TypeScript'e aktarılmış hâlini tarayıcıda çalıştırır; böylece her ekran sunucu olmadan denenebilir. Altta sabitlenmiş bir günlük, reddedilenler dahil her API isteğini ve yanıtını gösterir."
+        },
+        workflow: {
+            en: [
+                "Customers and vehicles: search where every word must match, VIN validation, normalized plates, odometer readings that never go backwards, and transfers that keep a car's service history.",
+                "Work orders from estimate to completion: labour and parts lines with exact decimal totals; approval records the agreed total, so work added later shows as a deviation.",
+                "Bays and appointments on a 15-minute grid: no double booking per bay or per vehicle, checked in the domain and enforced by PostgreSQL exclusion constraints; check-in opens the work order in the same transaction.",
+                "A day schedule in the workshop's IANA time zone, so a day has its real length across daylight-saving changes.",
+                "RFC 9457 problem responses with stable error codes, and 415 tests across domain, application, persistence (Testcontainers) and HTTP.",
+                "Interactive demo: drag-and-drop scheduling, light and dark themes, and an API log that marks which endpoints already exist."
+            ],
+            bg: [
+                "Клиенти и автомобили: търсене, при което всяка дума трябва да съвпадне, проверка на VIN, нормализирани регистрационни номера, километраж, който никога не намалява, и прехвърляне, при което сервизната история остава с колата.",
+                "Работни поръчки от офертата до приключването: редове за труд и части с точни десетични суми; одобрението записва договорената сума, така че добавената по-късно работа се вижда като отклонение.",
+                "Боксове и часове в мрежа от 15 минути: без двойни записи за един бокс или един автомобил – проверени в домейна и наложени от exclusion constraints в PostgreSQL; приемането на автомобила открива работната поръчка в същата транзакция.",
+                "Дневен график в часовата зона (IANA) на сервиза, така че денят има реалната си дължина и при смяна на лятното часово време.",
+                "Отговори по RFC 9457 със стабилни кодове за грешки и 415 теста за домейна, приложния слой, базата данни (Testcontainers) и HTTP.",
+                "Интерактивно демо: планиране с плъзгане, светла и тъмна тема и API дневник, който показва кои крайни точки вече съществуват."
+            ],
+            tr: [
+                "Müşteriler ve araçlar: her kelimenin eşleşmesi gereken arama, VIN doğrulama, normalleştirilmiş plakalar, asla geriye gitmeyen kilometre okumaları ve aracın servis geçmişini koruyan devirler.",
+                "Tekliften tamamlanmaya iş emirleri: kesin ondalık toplamlarla işçilik ve parça kalemleri; onay, kabul edilen toplamı kaydeder, böylece sonradan eklenen iş sapma olarak görünür.",
+                "15 dakikalık ızgarada servis bölmeleri ve randevular: bölme ya da araç başına çift rezervasyon yok; domain'de kontrol edilir ve PostgreSQL exclusion constraint'leriyle uygulanır. Araç kabulü, iş emrini aynı işlemde açar.",
+                "Servisin IANA saat diliminde günlük takvim; böylece yaz saati geçişlerinde de bir gün gerçek uzunluğundadır.",
+                "Kararlı hata kodlarıyla RFC 9457 problem yanıtları ve domain, uygulama, kalıcılık (Testcontainers) ve HTTP genelinde 415 test.",
+                "Etkileşimli demo: sürükle-bırak planlama, açık ve koyu tema ve hangi endpoint'lerin zaten var olduğunu gösteren bir API günlüğü."
+            ]
+        },
+        img: "images/autoflow/today.webp",
+        imgCaption: { en: "Today — arrivals, bays and work in the shop", bg: "Днес – очаквани автомобили, боксове и работа в сервиза", tr: "Bugün — beklenen araçlar, servis bölmeleri ve atölyedeki işler" },
+        gallery: [
+            { src: "images/autoflow/schedule.webp", caption: { en: "Schedule — bays as columns on a 15-minute grid, with a booking's details", bg: "График – боксовете като колони в мрежа от 15 минути, с подробности за записа", tr: "Takvim — 15 dakikalık ızgarada sütunlar hâlinde servis bölmeleri ve randevu ayrıntıları" } },
+            { src: "images/autoflow/work-order.webp", caption: { en: "Work order — lines, totals and the approved estimate with its deviation", bg: "Работна поръчка – редове, суми и одобрената оферта с отклонението от нея", tr: "İş emri — kalemler, toplamlar ve onaylanan teklif ile ondan sapma" } },
+            { src: "images/autoflow/booking-conflict.webp", caption: { en: "A double booking refused with a 409 problem response, shown in local time", bg: "Двоен запис, отказан с отговор 409, показан в местно време", tr: "409 problem yanıtıyla reddedilen, yerel saatle gösterilen çift rezervasyon" } },
+            { src: "images/autoflow/vehicle.webp", caption: { en: "Vehicle — VIN, odometer and service history, including earlier owners", bg: "Автомобил – VIN, километраж и сервизна история, включително на предишните собственици", tr: "Araç — VIN, kilometre sayacı ve önceki sahipler dahil servis geçmişi" } },
+            { src: "images/autoflow/work-orders.webp", caption: { en: "Work order board by status", bg: "Табло с работните поръчки по статус", tr: "Duruma göre iş emri panosu" } },
+            { src: "images/autoflow/api-log.webp", caption: { en: "API log — each request and its RFC 9457 problem response", bg: "API дневник – всяка заявка и нейният отговор по RFC 9457", tr: "API günlüğü — her istek ve RFC 9457 problem yanıtı" } },
+            { src: "images/autoflow/schedule-dark.webp", caption: { en: "Schedule, dark theme — a booking left in a bay that went out of service", bg: "График, тъмна тема – запис в бокс, който е извън експлоатация", tr: "Takvim, koyu tema — hizmet dışı kalan bir bölmedeki randevu" } },
+            { src: "images/autoflow/whats-built.webp", caption: { en: "What's built — every call the UI makes, against the backend and the roadmap", bg: "Какво е изградено – всяка заявка на интерфейса спрямо бекенда и пътната карта", tr: "Neler hazır — arayüzün yaptığı her çağrı, backend'e ve yol haritasına göre" } }
+        ],
+        link: "https://github.com/iamsemacakir/AutoFlow",
+        live: "autoflow/"
+    },
     hydra: {
         title: "Hydra",
         tags: ["UI/UX Design", "React", "Next.js", "TypeScript", "Design System", "Keycloak", "RUP"],
