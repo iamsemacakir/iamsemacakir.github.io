@@ -11,20 +11,20 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preload" href="assets/vendor/fontawesome/webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="assets/vendor/fontawesome/webfonts/fa-solid-900.woff2?v=20261115" as="font" type="font/woff2" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- Icon fonts are self-hosted and trimmed to the icons this page uses (see the note inside each CSS file). -->
-    <link rel="stylesheet" href="assets/vendor/fontawesome/css/fontawesome.min.css">
+    <link rel="stylesheet" href="assets/vendor/fontawesome/css/fontawesome.min.css?v=20261115">
     <link rel="stylesheet" href="assets/vendor/devicon/devicon.min.css">
 
     <!-- Browsers keep these files for a while. Change ?v= (today's date) whenever main.js or the CSS changes,
          so visitors get the new files together with the new page. -->
-    <script src="assets/js/main.js?v=20261111" defer></script>
+    <script src="assets/js/main.js?v=20261115" defer></script>
 
     <link rel="stylesheet" href="assets/css/styles.css?v=20261111">
     <!-- Tailwind is pre-built (no in-browser compiler). After adding NEW Tailwind classes, rebuild it with:
          npx tailwindcss@3.4.17 -i assets/css/tailwind.input.css -o assets/css/tailwind.css --minify -->
-    <link rel="stylesheet" href="assets/css/tailwind.css?v=20261111">
+    <link rel="stylesheet" href="assets/css/tailwind.css?v=20261115">
 </head>
 
 <body class="selection:bg-primary selection:text-white relative">
@@ -660,6 +660,19 @@
 
                     <div class="flex-1 p-6 md:p-10 bg-white dark:bg-[#151515] overflow-y-auto">
                         <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-8">
+
+                            <button type="button"
+                                class="project-card flex flex-col items-center group cursor-pointer"
+                                data-project-id="autoflow" data-project-tags="highlight repository backend frontend clean-architecture">
+                                <div class="relative w-24 h-20 mb-3 transition-transform group-hover:scale-110">
+                                    <i
+                                        class="fas fa-folder absolute inset-0 text-7xl md:text-[5rem] text-[#F6E08C]"></i>
+                                    <i
+                                        class="fas fa-car-side absolute inset-0 flex items-center justify-center text-3xl text-white/80 pb-2"></i>
+                                </div>
+                                <span
+                                    class="font-mono text-xs text-center text-ink dark:text-white group-hover:bg-primary group-hover:text-white px-1.5 py-0.5 rounded transition">AutoFlow</span>
+                            </button>
 
                             <button type="button"
                                 class="project-card flex flex-col items-center group cursor-pointer"
