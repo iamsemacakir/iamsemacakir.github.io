@@ -19,12 +19,12 @@
 
     <!-- Browsers keep these files for a while. Change ?v= (today's date) whenever main.js or the CSS changes,
          so visitors get the new files together with the new page. -->
-    <script src="assets/js/main.js?v=20261115" defer></script>
+    <script src="assets/js/main.js?v=20261124" defer></script>
 
     <link rel="stylesheet" href="assets/css/styles.css?v=20261111">
     <!-- Tailwind is pre-built (no in-browser compiler). After adding NEW Tailwind classes, rebuild it with:
          npx tailwindcss@3.4.17 -i assets/css/tailwind.input.css -o assets/css/tailwind.css --minify -->
-    <link rel="stylesheet" href="assets/css/tailwind.css?v=20261115">
+    <link rel="stylesheet" href="assets/css/tailwind.css?v=20261124">
 </head>
 
 <body class="selection:bg-primary selection:text-white relative">
@@ -661,6 +661,10 @@
                     <div class="flex-1 p-6 md:p-10 bg-white dark:bg-[#151515] overflow-y-auto">
                         <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-8">
 
+                            <!-- To add a project: copy a card and give it a new data-project-id, add that id to projectsData
+                                 in main.js with -md (main) and -sm (gallery) copies of its images, then change ?v= in the <head>.
+                                 A folder colour that no other card uses yet needs the Tailwind rebuild described there.
+                                 "pt-px md:pt-2.5" keeps the icon in the middle of the folder's front, below the tab. -->
                             <button type="button"
                                 class="project-card flex flex-col items-center group cursor-pointer"
                                 data-project-id="autoflow" data-project-tags="highlight repository backend frontend clean-architecture">
@@ -668,7 +672,7 @@
                                     <i
                                         class="fas fa-folder absolute inset-0 text-7xl md:text-[5rem] text-[#F6E08C]"></i>
                                     <i
-                                        class="fas fa-car-side absolute inset-0 flex items-center justify-center text-3xl text-white/80 pb-2"></i>
+                                        class="fas fa-car-side absolute inset-0 flex items-center justify-center text-3xl text-white/80 pt-px md:pt-2.5"></i>
                                 </div>
                                 <span
                                     class="font-mono text-xs text-center text-ink dark:text-white group-hover:bg-primary group-hover:text-white px-1.5 py-0.5 rounded transition">AutoFlow</span>
@@ -681,7 +685,7 @@
                                     <i
                                         class="fas fa-folder absolute inset-0 text-7xl md:text-[5rem] text-[#7FD3E6]"></i>
                                     <i
-                                        class="fas fa-network-wired absolute inset-0 flex items-center justify-center text-3xl text-white/80 pb-2"></i>
+                                        class="fas fa-network-wired absolute inset-0 flex items-center justify-center text-3xl text-white/80 pt-px md:pt-2.5"></i>
                                 </div>
                                 <span
                                     class="font-mono text-xs text-center text-ink dark:text-white group-hover:bg-primary group-hover:text-white px-1.5 py-0.5 rounded transition">Hydra</span>
@@ -694,7 +698,7 @@
                                     <i
                                         class="fas fa-folder absolute inset-0 text-7xl md:text-[5rem]" style="color:#5EC4B6"></i>
                                     <i
-                                        class="fas fa-compass absolute inset-0 flex items-center justify-center text-3xl text-white/80 pb-2"></i>
+                                        class="fas fa-compass absolute inset-0 flex items-center justify-center text-3xl text-white/80 pt-px md:pt-2.5"></i>
                                 </div>
                                 <span
                                     class="font-mono text-xs text-center text-ink dark:text-white group-hover:bg-primary group-hover:text-white px-1.5 py-0.5 rounded transition">ParkSmart</span>
@@ -707,7 +711,7 @@
                                     <i
                                         class="fas fa-folder absolute inset-0 text-7xl md:text-[5rem] text-[#8CB4F6]"></i>
                                     <i
-                                        class="fas fa-robot absolute inset-0 flex items-center justify-center text-3xl text-white/80 pb-2"></i>
+                                        class="fas fa-robot absolute inset-0 flex items-center justify-center text-3xl text-white/80 pt-px md:pt-2.5"></i>
                                 </div>
                                 <span
                                     class="font-mono text-xs text-center text-ink dark:text-white group-hover:bg-primary group-hover:text-white px-1.5 py-0.5 rounded transition">LangForU</span>
@@ -720,7 +724,7 @@
                                     <i
                                         class="fas fa-folder absolute inset-0 text-7xl md:text-[5rem] text-[#F6C38C]"></i>
                                     <i
-                                        class="fas fa-plane absolute inset-0 flex items-center justify-center text-3xl text-white/80 pb-2"></i>
+                                        class="fas fa-plane absolute inset-0 flex items-center justify-center text-3xl text-white/80 pt-px md:pt-2.5"></i>
                                 </div>
                                 <span
                                     class="font-mono text-xs text-center text-ink dark:text-white group-hover:bg-primary group-hover:text-white px-1.5 py-0.5 rounded transition">Travelis</span>
@@ -733,7 +737,7 @@
                                     <i
                                         class="fas fa-folder absolute inset-0 text-7xl md:text-[5rem] text-[#8CF6A1]"></i>
                                     <i
-                                        class="fas fa-shopping-cart absolute inset-0 flex items-center justify-center text-3xl text-white/80 pb-2"></i>
+                                        class="fas fa-shopping-cart absolute inset-0 flex items-center justify-center text-3xl text-white/80 pt-px md:pt-2.5"></i>
                                 </div>
                                 <span
                                     class="font-mono text-xs text-center text-ink dark:text-white group-hover:bg-primary group-hover:text-white px-1.5 py-0.5 rounded transition">SportArete</span>
@@ -746,7 +750,7 @@
                                     <i
                                         class="fas fa-folder absolute inset-0 text-7xl md:text-[5rem] text-[#C98CF6]"></i>
                                     <i
-                                        class="fas fa-users absolute inset-0 flex items-center justify-center text-3xl text-white/80 pb-2"></i>
+                                        class="fas fa-users absolute inset-0 flex items-center justify-center text-3xl text-white/80 pt-px md:pt-2.5"></i>
                                 </div>
                                 <span
                                     class="font-mono text-xs text-center text-ink dark:text-white group-hover:bg-primary group-hover:text-white px-1.5 py-0.5 rounded transition">Conexion</span>
@@ -759,7 +763,7 @@
                                     <i
                                         class="fas fa-folder absolute inset-0 text-7xl md:text-[5rem] text-[#F68CC4]"></i>
                                     <i
-                                        class="fas fa-laptop-code absolute inset-0 flex items-center justify-center text-3xl text-white/80 pb-2"></i>
+                                        class="fas fa-laptop-code absolute inset-0 flex items-center justify-center text-3xl text-white/80 pt-px md:pt-2.5"></i>
                                 </div>
                                 <span
                                     class="font-mono text-xs text-center text-ink dark:text-white group-hover:bg-primary group-hover:text-white px-1.5 py-0.5 rounded transition">Portfolio</span>
