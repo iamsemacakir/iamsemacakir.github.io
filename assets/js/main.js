@@ -273,6 +273,23 @@ const projectsData = {
         ]),
         link: "https://github.com/iamsemacakir/hydra/tree/feature/ui-redesign"
     },
+    parksmart: {
+        title: "ParkSmart",
+        tags: ["JavaScript", "HTML", "CSS", "SVG", "Canvas", "Responsive Design", "Accessibility"],
+        desc: {
+            en: "ParkSmart is a parking lot manager that runs in the browser. A live map shows every bay from above, drawn to scale like an aerial photo, with cars that drive in from the street, back out of their bays and leave through the barrier. It checks cars in and out with the right fee, sends each arrival to the best free bay and keeps a history you can search, chart and export. <br><br> Plain JavaScript with no framework and no build step: open the page and it works.",
+            bg: "ParkSmart е приложение за управление на паркинг, което работи в браузъра. Жива карта показва всяко място отгоре, начертано в мащаб като въздушна снимка, с коли, които влизат от улицата, излизат на заден ход от местата си и напускат през бариерата. Регистрира влизане и излизане с правилната такса, насочва всяка кола към най-доброто свободно място и пази история, която може да се търси, визуализира и експортира. <br><br> Чист JavaScript без фреймуърк и без билд стъпка: отваряте страницата и работи.",
+            tr: "ParkSmart, tarayıcıda çalışan bir otopark yönetim uygulamasıdır. Canlı harita her park yerini yukarıdan, bir hava fotoğrafı gibi ölçekli gösterir; arabalar sokaktan girer, park yerinden geri çıkar ve bariyerden ayrılır. Araç giriş ve çıkışlarını doğru ücretle kaydeder, her gelen aracı en uygun boş yere yönlendirir ve aranabilir, grafiklenebilir ve dışa aktarılabilir bir geçmiş tutar. <br><br> Framework ve derleme adımı olmadan saf JavaScript: sayfayı açın, çalışsın."
+        },
+        workflow: {
+            en: ["Aerial-view map painted on a canvas: worn asphalt, faded paint, trees and light poles with shadows, and four car body styles.", "Smart bay assignment for EV and accessible needs, with the route drawn from the gate.", "Check-out with an itemised receipt, plus history, CSV export, insights charts and a usage heatmap.", "Light and dark themes, a phone layout, keyboard use and screen reader labels."],
+            bg: ["Карта с изглед от въздуха, рисувана на canvas: износен асфалт, избеляла маркировка, дървета и стълбове с осветление със сенки и четири вида коли.", "Умно разпределение на местата според нуждите (електромобил, достъпност), с начертан маршрут от бариерата.", "Излизане с подробна касова бележка, история, експорт в CSV, графики и топлинна карта на използването.", "Светла и тъмна тема, оформление за телефон, работа с клавиатура и етикети за екранни четци."],
+            tr: ["Canvas üzerinde çizilen hava görünümlü harita: aşınmış asfalt, solmuş boya, gölgeli ağaçlar ve aydınlatma direkleri ile dört farklı araç tipi.", "Elektrikli araç ve erişilebilirlik ihtiyaçlarına göre akıllı park yeri ataması ve bariyerden çizilen rota.", "Ayrıntılı fişle çıkış, geçmiş, CSV dışa aktarma, grafikler ve kullanım ısı haritası.", "Açık ve koyu tema, telefon düzeni, klavye kullanımı ve ekran okuyucu etiketleri."]
+        },
+        img: "images/parksmart/lot-map.webp",
+        gallery: ["images/parksmart/cars.webp", "images/parksmart/phone.webp", "images/parksmart/insights-dark.webp"],
+        link: "https://github.com/iamsemacakir/ParkSmart"
+    },
     langforu: {
         title: "LangForU",
         tags: ["Java", "Spring Boot", "MySQL", "OpenAI API", "Thymeleaf", "HTML/CSS/JS"],
