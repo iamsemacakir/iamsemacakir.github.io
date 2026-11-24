@@ -288,7 +288,8 @@ const projectsData = {
         },
         img: "images/parksmart/lot-map.webp",
         gallery: ["images/parksmart/cars.webp", "images/parksmart/phone.webp", "images/parksmart/insights-dark.webp"],
-        link: "https://github.com/iamsemacakir/ParkSmart"
+        link: "https://github.com/iamsemacakir/ParkSmart",
+        live: "https://iamsemacakir.github.io/ParkSmart/"
     },
     langforu: {
         title: "LangForU",
