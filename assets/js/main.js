@@ -118,6 +118,7 @@ const translations = {
     modal_gallery: { en: "Gallery", bg: "Галерия", tr: "Galeri" },
     modal_workflow_title: { en: "Features / Workflow", bg: "Функции / Работен процес", tr: "Özellikler / İş Akışı" },
     modal_btn: { en: "View Repository", bg: "Вижте хранилището", tr: "Depoyu Görüntüle" },
+    modal_private: { en: "Private Repository", bg: "Частно хранилище", tr: "Özel Depo" },
     modal_live_btn: { en: "Live Demo", bg: "Вижте сайта", tr: "Canlı Demo" },
     modal_more: { en: "more", bg: "още", tr: "daha" },
     alert_success_title: { en: "Message Sent!", bg: "Изпратено!", tr: "Gönderildi!" },
@@ -290,6 +291,52 @@ const projectsData = {
         gallery: ["images/parksmart/cars.webp", "images/parksmart/phone.webp", "images/parksmart/insights-dark.webp"],
         link: "https://github.com/iamsemacakir/ParkSmart",
         live: "https://iamsemacakir.github.io/ParkSmart/"
+    },
+    "cpp-http-server": {
+        title: "C++ HTTP Server",
+        tags: ["C++17", "POSIX Sockets", "HTTP/1.1", "Multithreading", "CMake", "Linux"],
+        desc: {
+            en: "A small HTTP/1.1 web server written from scratch in modern C++ (C++17), with no frameworks: just POSIX sockets and the standard library. It parses raw requests straight off the socket, routes them to handlers, serves static files safely and answers many clients at once from its own thread pool, keeping connections alive between requests. <br><br> Built step by step from a roadmap, each feature in its own branch, to understand how the web works under the hood.",
+            bg: "Малък HTTP/1.1 уеб сървър, написан от нулата на модерен C++ (C++17), без фреймуърци: само POSIX сокети и стандартната библиотека. Чете суровите заявки направо от сокета, насочва ги към обработчици, сервира безопасно статични файлове и обслужва много клиенти едновременно чрез собствен пул от нишки, като пази връзките отворени между заявките. <br><br> Изграден стъпка по стъпка по пътна карта, всяка функционалност в отделен клон, за да разбера как работи уебът „под капака“.",
+            tr: "Modern C++ (C++17) ile sıfırdan yazılmış, framework kullanmayan küçük bir HTTP/1.1 web sunucusu: yalnızca POSIX soketleri ve standart kütüphane. Ham istekleri doğrudan soketten okur, işleyicilere yönlendirir, statik dosyaları güvenli şekilde sunar ve kendi iş parçacığı havuzuyla aynı anda birçok istemciye yanıt verirken bağlantıları istekler arasında açık tutar. <br><br> Web'in perde arkasında nasıl çalıştığını anlamak için bir yol haritasına göre adım adım, her özellik ayrı bir dalda geliştirildi."
+        },
+        workflow: {
+            en: ["HTTP/1.1 request parser and response builder: request line, headers, body by Content-Length, status codes and automatic Date, Server and Content-Length headers.", "Router with path parameters (/users/:id), percent-decoded query strings, 404 and 405 with an Allow header, and HEAD answered automatically for GET routes.", "Static files with MIME types, guarded against path traversal: .., encoded %2e%2e, hidden files and symlinks out of the root get 403. Custom HTML error pages.", "Its own thread pool with per-client timeouts, keep-alive and pipelined requests, a thread-safe access log, a config file and command-line options."],
+            bg: ["Парсър на заявки и конструктор на отговори за HTTP/1.1: ред на заявката, заглавки, тяло по Content-Length, статус кодове и автоматични заглавки Date, Server и Content-Length.", "Рутер с параметри в пътя (/users/:id), декодирани параметри на заявката, 404 и 405 със заглавка Allow и автоматичен отговор на HEAD за GET маршрутите.", "Статични файлове с MIME типове, защитени от path traversal: .., кодирано %2e%2e, скрити файлове и символни връзки извън основната папка получават 403. Собствени HTML страници за грешки.", "Собствен пул от нишки с таймаут за всеки клиент, keep-alive и последователни (pipelined) заявки, нишково-безопасен лог на достъпа, конфигурационен файл и опции от командния ред."],
+            tr: ["HTTP/1.1 istek ayrıştırıcı ve yanıt oluşturucu: istek satırı, başlıklar, Content-Length ile gövde, durum kodları ve otomatik Date, Server ve Content-Length başlıkları.", "Yol parametreli yönlendirici (/users/:id), çözümlenmiş sorgu dizeleri, Allow başlıklı 404 ve 405 yanıtları ve GET rotaları için otomatik HEAD yanıtı.", "MIME türleriyle statik dosyalar ve dizin aşımına (path traversal) karşı koruma: .., kodlanmış %2e%2e, gizli dosyalar ve kök dışına çıkan sembolik bağlantılar 403 alır. Özel HTML hata sayfaları.", "İstemci başına zaman aşımlı kendi iş parçacığı havuzu, keep-alive ve ardışık (pipelined) istekler, iş parçacığı güvenli erişim günlüğü, yapılandırma dosyası ve komut satırı seçenekleri."]
+        },
+        img: "images/cpp-http-server/server-log.webp",
+        imgCaption: { en: "The server's access log while it answers a browser and curl", bg: "Логът на сървъра, докато отговаря на браузър и curl", tr: "Sunucu bir tarayıcıya ve curl'e yanıt verirken erişim günlüğü" },
+        gallery: [
+            { src: "images/cpp-http-server/routing.webp", caption: { en: "Path parameters, a decoded query string and 405 with an Allow header", bg: "Параметри в пътя, декодирана заявка и 405 със заглавка Allow", tr: "Yol parametreleri, çözümlenmiş sorgu dizesi ve Allow başlıklı 405" } },
+            { src: "images/cpp-http-server/path-traversal.webp", caption: { en: "Attempts to get out of the document root are answered with 403", bg: "Опитите за излизане от основната папка получават 403", tr: "Kök dizinin dışına çıkma denemeleri 403 ile yanıtlanır" } },
+            { src: "images/cpp-http-server/browser.webp", caption: { en: "A static page and the custom 404 page in the browser", bg: "Статична страница и собствената страница 404 в браузъра", tr: "Tarayıcıda statik bir sayfa ve özel 404 sayfası" } },
+            { src: "images/cpp-http-server/command-line.webp", caption: { en: "Command-line options, and a clear error for a bad value", bg: "Опции от командния ред и ясна грешка при невалидна стойност", tr: "Komut satırı seçenekleri ve hatalı bir değerde anlaşılır hata" } },
+        ],
+        link: "https://github.com/iamsemacakir/cpp-http-server"
+    },
+    "mail-assistant": {
+        title: "Mail Assistant",
+        tags: ["Python", "GitHub Actions", "Gmail API", "OAuth 2.0", "Claude API", "ntfy", "Automation"],
+        desc: {
+            en: "Mail Assistant is my own assistant for my four Gmail accounts. Every 30 minutes GitHub Actions runs a Python script that reads new mail through the Gmail API, has Claude put each email in a folder with a one-line summary, unsubscribes from ads and sends the important emails to my phone through ntfy. Every morning at 8:00 it sends a short summary of the day. <br><br> Safety comes first: hard rules sit on top of the model, an unclear answer changes nothing, starred mail is never trashed, and unsubscribing only uses signed one-click links.",
+            bg: "Mail Assistant е моят личен асистент за четирите ми Gmail пощи. На всеки 30 минути GitHub Actions пуска Python скрипт, който чете новите писма през Gmail API, оставя Claude да сложи всяко писмо в папка с резюме от едно изречение, отписва ме от рекламите и праща важните писма на телефона ми чрез ntfy. Всяка сутрин в 8:00 изпраща кратко обобщение на деня. <br><br> Сигурността е на първо място: твърди правила стоят над модела, неясен отговор не променя нищо, писмата със звезда никога не отиват в кошчето, а отписването става само чрез подписани връзки с едно щракване.",
+            tr: "Mail Assistant, dört Gmail hesabım için kendi asistanım. GitHub Actions her 30 dakikada bir Python betiği çalıştırır: betik yeni e-postaları Gmail API ile okur, Claude'a her e-postayı tek cümlelik bir özetle bir klasöre yerleştirtir, reklam listelerinden aboneliğimi iptal eder ve önemli e-postaları ntfy ile telefonuma gönderir. Her sabah 8:00'de günün kısa bir özetini yollar. <br><br> Önce güvenlik: modelin üzerinde katı kurallar vardır, belirsiz bir yanıt hiçbir şeyi değiştirmez, yıldızlı e-postalar asla çöp kutusuna gitmez ve abonelik iptali yalnızca imzalı tek tıklamalı bağlantılarla yapılır."
+        },
+        workflow: {
+            en: ["Runs on GitHub Actions every 30 minutes, with an 8:00 morning summary and a one-time backfill that sorts all mail since a chosen date.", "Claude Haiku sorts 10 emails per request into folders like Work, Home and Finance. Less important mail goes only to its folder, and ads are unsubscribed and moved to Trash.", "Safety rules: routine Google notices never count as important (only an account-deletion warning does), starred mail is never trashed, and a missing or unclear answer leaves the email untouched.", "18 unit tests must pass before every run, Claude's cost is tracked with a budget cap for big backfills, and every run saves a report to a status branch."],
+            bg: ["Работи в GitHub Actions на всеки 30 минути, със сутрешно обобщение в 8:00 и еднократно подреждане на всички писма от избрана дата насам.", "Claude Haiku подрежда по 10 писма на заявка в папки като Работа, Дом и Финанси. По-маловажните писма отиват само в папката си, а от рекламите се отписва и ги мести в кошчето.", "Правила за сигурност: рутинните известия от Google никога не са важни (важно е само предупреждение за изтриване на акаунта), писмата със звезда не отиват в кошчето, а липсващ или неясен отговор оставя писмото непипнато.", "18 unit теста трябва да минат преди всяко пускане, разходът за Claude се следи с лимит за големите подреждания, а всяко пускане записва отчет в клона status."],
+            tr: ["Her 30 dakikada bir GitHub Actions üzerinde çalışır; 8:00'de sabah özeti ve seçilen bir tarihten bu yana tüm e-postaları bir kerede düzenleyen toplu işlem de vardır.", "Claude Haiku istek başına 10 e-postayı İş, Ev ve Finans gibi klasörlere ayırır. Daha az önemli e-postalar yalnızca kendi klasörüne gider; reklamlardan abonelik iptal edilir ve çöp kutusuna taşınır.", "Güvenlik kuralları: Google'ın rutin bildirimleri asla önemli sayılmaz (yalnızca hesap silme uyarısı sayılır), yıldızlı e-postalar çöp kutusuna gitmez ve eksik ya da belirsiz bir yanıt e-postaya dokunmaz.", "Her çalıştırmadan önce 18 birim testinin geçmesi gerekir, Claude maliyeti büyük toplu işlemlerde bütçe sınırıyla izlenir ve her çalıştırma status dalına bir rapor kaydeder."]
+        },
+        img: "images/mail-assistant/how-it-works.webp",
+        imgCaption: { en: "How it works", bg: "Как работи", tr: "Nasıl çalışır" },
+        gallery: [
+            { src: "images/mail-assistant/notifications.webp", caption: { en: "Push notifications through ntfy (sample data)", bg: "Известия на телефона чрез ntfy (примерни данни)", tr: "ntfy ile telefona bildirimler (örnek veriler)" } },
+            { src: "images/mail-assistant/tests.webp", caption: { en: "The 18 unit tests that must pass before it touches any mail", bg: "18-те unit теста, които трябва да минат, преди да пипне писмата", tr: "E-postalara dokunmadan önce geçmesi gereken 18 birim testi" } },
+            { src: "images/mail-assistant/workflow.webp", caption: { en: "The GitHub Actions schedule: every 30 minutes, 8:00 and backfill", bg: "Графикът в GitHub Actions: на всеки 30 минути, в 8:00 и еднократно подреждане", tr: "GitHub Actions zamanlaması: her 30 dakikada bir, 8:00'de ve toplu düzenleme" } },
+        ],
+        // The repository is private, so the popup says so instead of linking to it.
+        link: null
     },
     langforu: {
         title: "LangForU",
@@ -1044,7 +1091,16 @@ function renderProjectModal(id) {
 
     document.getElementById('modal-title').textContent = project.title;
     document.getElementById('modal-desc').innerHTML = project.desc[lang] || project.desc.en;
-    document.getElementById('modal-link').href = project.link;
+    // A private repository has no link: the popup says so instead of linking to a page visitors can't open.
+    const repoLink = document.getElementById('modal-link');
+    repoLink.href = project.link || '#';
+    repoLink.classList.toggle('hidden', !project.link);
+    repoLink.classList.toggle('inline-flex', Boolean(project.link));
+    const privateNote = document.getElementById('modal-private');
+    if (privateNote) {
+        privateNote.classList.toggle('hidden', Boolean(project.link));
+        privateNote.classList.toggle('inline-flex', !project.link);
+    }
 
     // "Live Demo" button only for projects that are hosted.
     const liveLink = document.getElementById('modal-live');
